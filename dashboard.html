@@ -1,0 +1,409 @@
+<!DOCTYPE html>
+<html lang="en" class="h-full">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>CareerAlign Dashboard – ResumeScore.ai</title>
+  <meta name="description" content="Access your CareerAlign credits, resume analysis tools, and ATS optimisation dashboard." />
+
+  <!-- Tailwind CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <!-- Font Awesome for icons (same as landing if used) -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+  <!-- Custom CSS -->
+  <link rel="stylesheet" href="./css/style.css" />
+
+  <!-- PWA manifest -->
+  <link rel="manifest" href="./manifest.json" />
+  <meta name="theme-color" content="#020617" />
+</head>
+<body class="h-full bg-slate-950 text-slate-100">
+  <div id="app-root" class="min-h-screen flex flex-col">
+
+    <!-- Top nav -->
+    <header class="dashboard-header fixed top-0 inset-x-0 z-30 bg-slate-950/80 backdrop-blur border-b border-slate-800">
+      <div class="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8 flex items-center justify-between h-16">
+        <div class="flex items-center gap-3">
+          <a href="./index.html" class="flex items-center gap-2">
+            <div class="h-8 w-8 rounded-xl bg-gradient-to-br from-sky-500 to-emerald-400 flex items-center justify-center text-xs font-bold">
+              CA
+            </div>
+            <div class="leading-tight">
+              <p class="text-sm font-semibold text-slate-50 tracking-tight">
+                CareerAlign
+              </p>
+              <p class="text-[11px] text-slate-400 tracking-wide uppercase">
+                ResumeScore.ai
+              </p>
+            </div>
+          </a>
+          <span class="hidden sm:inline-flex ml-4 rounded-full bg-slate-900 px-3 py-1 text-xs font-medium text-slate-400 border border-slate-800">
+            Paid user dashboard
+          </span>
+        </div>
+
+        <div class="flex items-center gap-3">
+          <!-- Mobile menu toggle -->
+          <button id="dashboardMenuToggle" class="inline-flex items-center justify-center md:hidden rounded-full border border-slate-700 p-2 text-slate-300 hover:bg-slate-800">
+            <span class="sr-only">Toggle navigation</span>
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.6" d="M4 6h16M4 12h16M4 18h16" />
+            </svg>
+          </button>
+
+          <!-- User chip -->
+          <div id="userChip" class="hidden md:flex items-center gap-3 rounded-full bg-slate-900/80 border border-slate-700 px-3 py-1.5">
+            <div class="h-7 w-7 rounded-full bg-sky-500/30 flex items-center justify-center text-xs font-semibold text-sky-300">
+              U
+            </div>
+            <div class="leading-tight">
+              <p id="userEmailLabel" class="text-xs font-medium text-slate-200 truncate max-w-[160px]">
+                user@example.com
+              </p>
+              <p id="userPackageLabel" class="text-[11px] text-emerald-400 uppercase tracking-wide">
+                PACKAGE
+              </p>
+            </div>
+            <button id="logoutBtn" class="ml-2 text-[11px] font-semibold text-slate-400 hover:text-rose-400">
+              Logout
+            </button>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <div class="flex flex-1 pt-16">
+
+      <!-- Sidebar -->
+      <aside id="dashboardSidebar" class="dashboard-sidebar hidden md:flex md:flex-col w-64 bg-slate-950 border-r border-slate-800">
+        <div class="px-4 py-4 border-b border-slate-800">
+          <p class="text-xs font-semibold text-slate-400 uppercase tracking-wide mb-2">
+            Navigation
+          </p>
+          <nav class="space-y-1 text-sm">
+            <button class="dashboard-nav-item dashboard-nav-item-active" data-view="overview">
+              <span>Overview</span>
+            </button>
+            <button class="dashboard-nav-item" data-view="match-score">
+              <span>Match score requests</span>
+            </button>
+            <button class="dashboard-nav-item" data-view="ats-resume">
+              <span>ATS resume rewrites</span>
+            </button>
+            <button class="dashboard-nav-item" data-view="cover-letters">
+              <span>Tailored cover letters</span>
+            </button>
+            <button class="dashboard-nav-item" data-view="interview">
+              <span>Mock interview questions</span>
+            </button>
+            <button class="dashboard-nav-item" data-view="account">
+              <span>Account &amp; billing</span>
+            </button>
+          </nav>
+        </div>
+        <div class="mt-auto px-4 py-4 text-[11px] text-slate-500 border-t border-slate-800 space-y-1">
+          <p>Need help? WhatsApp support:</p>
+          <a href="https://wa.me/60XXXXXXXXX" target="_blank" class="font-semibold text-sky-400 hover:text-sky-300">
+            Chat with CareerAlign
+          </a>
+        </div>
+      </aside>
+
+      <!-- Mobile nav panel -->
+      <div id="dashboardMobilePanel" class="fixed inset-x-0 top-16 z-20 bg-slate-950 border-b border-slate-800 md:hidden hidden">
+        <nav class="px-4 py-3 space-y-1 text-sm">
+          <button class="dashboard-nav-item dashboard-nav-item-active w-full justify-start" data-view="overview">
+            Overview
+          </button>
+          <button class="dashboard-nav-item w-full justify-start" data-view="match-score">
+            Match score requests
+          </button>
+          <button class="dashboard-nav-item w-full justify-start" data-view="ats-resume">
+            ATS resume rewrites
+          </button>
+          <button class="dashboard-nav-item w-full justify-start" data-view="cover-letters">
+            Tailored cover letters
+          </button>
+          <button class="dashboard-nav-item w-full justify-start" data-view="interview">
+            Mock interview questions
+          </button>
+          <button class="dashboard-nav-item w-full justify-start" data-view="account">
+            Account &amp; billing
+          </button>
+          <hr class="border-slate-800 my-2" />
+          <button id="logoutBtnMobile" class="w-full text-left text-xs font-semibold text-rose-400">
+            Logout
+          </button>
+        </nav>
+      </div>
+
+      <!-- Main content -->
+      <main class="flex-1 bg-gradient-to-b from-slate-950 to-slate-900">
+        <div class="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8 py-6 sm:py-8 space-y-6">
+
+          <!-- LOGIN VIEW (shown when not authenticated) -->
+          <section id="loginView" class="max-w-lg mx-auto mt-10">
+            <div class="rounded-2xl border border-slate-800 bg-slate-900/70 shadow-xl shadow-slate-950/50 p-6 sm:p-8">
+              <h1 class="text-xl sm:text-2xl font-semibold text-slate-50 tracking-tight mb-2">
+                Sign in to your CareerAlign dashboard
+              </h1>
+              <p class="text-sm text-slate-400 mb-6">
+                Use the email, password and passkey sent to you after successful payment.
+              </p>
+
+              <form id="loginForm" class="space-y-4">
+                <div>
+                  <label for="loginEmail" class="block text-xs font-medium text-slate-300 mb-1">
+                    Email address
+                  </label>
+                  <input id="loginEmail" name="email" type="email" required
+                         class="w-full rounded-lg border border-slate-700 bg-slate-900/80 px-3 py-2 text-sm text-slate-100 placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-sky-500">
+                </div>
+                <div>
+                  <label for="loginPassword" class="block text-xs font-medium text-slate-300 mb-1">
+                    Password
+                  </label>
+                  <input id="loginPassword" name="password" type="password" required
+                         class="w-full rounded-lg border border-slate-700 bg-slate-900/80 px-3 py-2 text-sm text-slate-100 placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-sky-500">
+                </div>
+                <div>
+                  <label for="loginPasskey" class="block text-xs font-medium text-slate-300 mb-1">
+                    Passkey code
+                  </label>
+                  <input id="loginPasskey" name="passkey" type="text" required
+                         class="w-full rounded-lg border border-slate-700 bg-slate-900/80 px-3 py-2 text-sm text-slate-100 placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-emerald-500">
+                  <p class="mt-1 text-[11px] text-slate-500">
+                    This one-time code is in your payment confirmation email.
+                  </p>
+                </div>
+
+                <div id="loginError" class="hidden text-xs text-rose-400 bg-rose-950/40 border border-rose-900 rounded-lg px-3 py-2">
+                  Invalid login details. Please check your email, password, and passkey.
+                </div>
+
+                <button type="submit"
+                        class="w-full inline-flex items-center justify-center rounded-lg bg-sky-500 px-4 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-sky-400 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-slate-950 focus:ring-sky-500">
+                  <span id="loginBtnLabel">Sign in</span>
+                  <svg id="loginBtnSpinner" class="hidden ml-2 h-4 w-4 animate-spin" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                    <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="3"></circle>
+                    <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v3a5 5 0 00-5 5H4z"></path>
+                  </svg>
+                </button>
+
+                <p class="text-[11px] text-slate-500 text-center mt-3">
+                  Didn't receive your activation email? Contact support via WhatsApp and mention your payment reference.
+                </p>
+              </form>
+            </div>
+          </section>
+
+          <!-- DASHBOARD VIEW (shown after login) -->
+          <section id="dashboardView" class="hidden space-y-6">
+
+            <!-- Top summary cards -->
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+              <div class="dashboard-card">
+                <p class="text-xs font-medium text-slate-400 uppercase tracking-wide mb-1">
+                  Active package
+                </p>
+                <p id="summaryPackageName" class="text-base font-semibold text-slate-50 mb-1">
+                  Career Pack (Example)
+                </p>
+                <p id="summaryPackageLabel" class="text-xs text-emerald-400">
+                  Full access • 5 requests each
+                </p>
+              </div>
+
+              <div class="dashboard-card flex items-center justify-between">
+                <div>
+                  <p class="text-xs font-medium text-slate-400 uppercase tracking-wide mb-1">
+                    Match score requests
+                  </p>
+                  <p class="text-lg font-semibold text-slate-50">
+                    <span id="summaryMatchUsed">0</span>/<span id="summaryMatchTotal">5</span> used
+                  </p>
+                  <p class="text-[11px] text-slate-500 mt-1">
+                    Resume vs job description alignment reports.
+                  </p>
+                </div>
+                <div class="inline-flex items-center rounded-full bg-sky-500/10 px-3 py-1 text-xs text-sky-300 border border-sky-500/30">
+                  <span id="summaryMatchStatus">Available</span>
+                </div>
+              </div>
+
+              <div class="dashboard-card flex items-center justify-between">
+                <div>
+                  <p class="text-xs font-medium text-slate-400 uppercase tracking-wide mb-1">
+                    ATS resume rewrites
+                  </p>
+                  <p class="text-lg font-semibold text-slate-50">
+                    <span id="summaryResumeUsed">0</span>/<span id="summaryResumeTotal">5</span> used
+                  </p>
+                  <p class="text-[11px] text-slate-500 mt-1">
+                    ATS-friendly resume for target roles.
+                  </p>
+                </div>
+                <div class="inline-flex items-center rounded-full bg-emerald-500/10 px-3 py-1 text-xs text-emerald-300 border border-emerald-500/30">
+                  <span id="summaryResumeStatus">Available</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Main content area (changes by view) -->
+            <div id="dashboardContent" class="space-y-4">
+              <!-- Overview default content -->
+              <div id="view-overview" class="dashboard-view">
+                <h2 class="text-lg font-semibold text-slate-50 mb-2">
+                  Welcome back
+                </h2>
+                <p class="text-sm text-slate-400 mb-4">
+                  Start with a match score to understand how well your resume fits a job, then request ATS resume rewrites and tailored cover letters based on your package.
+                </p>
+
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-4">
+                  <div class="dashboard-card">
+                    <div class="flex items-center justify-between mb-2">
+                      <div>
+                        <p class="text-xs font-medium text-slate-400 uppercase tracking-wide mb-1">
+                          Quick action
+                        </p>
+                        <p class="text-sm font-semibold text-slate-50">
+                          New match score request
+                        </p>
+                      </div>
+                    </div>
+                    <p class="text-xs text-slate-500 mb-3">
+                      Paste your current resume text and job description. The system will analyse alignment and provide a score.
+                    </p>
+                    <button class="inline-flex items-center justify-center rounded-lg bg-sky-500 px-3 py-2 text-xs font-semibold text-white hover:bg-sky-400"
+                            data-view-jump="match-score">
+                      Go to match score tool
+                    </button>
+                  </div>
+
+                  <div class="dashboard-card">
+                    <div class="flex items-center justify-between mb-2">
+                      <div>
+                        <p class="text-xs font-medium text-slate-400 uppercase tracking-wide mb-1">
+                          Your usage summary
+                        </p>
+                        <p class="text-sm font-semibold text-slate-50">
+                          Requests remaining
+                        </p>
+                      </div>
+                    </div>
+                    <ul class="space-y-1 text-xs text-slate-300">
+                      <li>
+                        • Match score: <span id="overviewMatchRemaining">5</span> remaining
+                      </li>
+                      <li>
+                        • ATS resume: <span id="overviewResumeRemaining">5</span> remaining
+                      </li>
+                      <li>
+                        • Cover letters: <span id="overviewCoverRemaining">5</span> remaining
+                      </li>
+                      <li>
+                        • Mock interviews: <span id="overviewInterviewRemaining">1</span> session
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Match score view (placeholder structure) -->
+              <div id="view-match-score" class="dashboard-view hidden">
+                <h2 class="text-lg font-semibold text-slate-50 mb-2">
+                  Match score requests
+                </h2>
+                <p class="text-sm text-slate-400 mb-4">
+                  Paste your resume and the job description. After backend integration, this will send your request to the analysis engine and consume 1 credit.
+                </p>
+                <div class="dashboard-card space-y-3">
+                  <div>
+                    <label class="block text-xs font-medium text-slate-300 mb-1">
+                      Resume content
+                    </label>
+                    <textarea class="dashboard-input h-32" placeholder="Paste your resume text here..."></textarea>
+                  </div>
+                  <div>
+                    <label class="block text-xs font-medium text-slate-300 mb-1">
+                      Job description
+                    </label>
+                    <textarea class="dashboard-input h-32" placeholder="Paste the job description here..."></textarea>
+                  </div>
+                  <button class="inline-flex items-center justify-center rounded-lg bg-sky-500 px-4 py-2 text-sm font-semibold text-white hover:bg-sky-400">
+                    Submit match score request (future API)
+                  </button>
+                  <p class="text-[11px] text-slate-500">
+                    This button will be connected to your backend API to generate a detailed report and reduce available credits.
+                  </p>
+                </div>
+              </div>
+
+              <!-- ATS resume view placeholder -->
+              <div id="view-ats-resume" class="dashboard-view hidden">
+                <h2 class="text-lg font-semibold text-slate-50 mb-2">
+                  ATS resume rewrites
+                </h2>
+                <p class="text-sm text-slate-400 mb-4">
+                  This view will host your ATS resume rewrite requests once connected to the backend.
+                </p>
+                <div class="dashboard-card text-xs text-slate-300">
+                  Design the exact workflow once we've confirmed your backend integration plan.
+                </div>
+              </div>
+
+              <!-- Cover letters view placeholder -->
+              <div id="view-cover-letters" class="dashboard-view hidden">
+                <h2 class="text-lg font-semibold text-slate-50 mb-2">
+                  Tailored cover letters
+                </h2>
+                <p class="text-sm text-slate-400 mb-4">
+                  This section will generate cover letters aligned with your chosen role/company.
+                </p>
+                <div class="dashboard-card text-xs text-slate-300">
+                  Placeholder for cover letter generator UI.
+                </div>
+              </div>
+
+              <!-- Interview view placeholder -->
+              <div id="view-interview" class="dashboard-view hidden">
+                <h2 class="text-lg font-semibold text-slate-50 mb-2">
+                  Mock interview questions
+                </h2>
+                <p class="text-sm text-slate-400 mb-4">
+                  This section will deliver role-specific mock interview questions once your backend is connected.
+                </p>
+                <div class="dashboard-card text-xs text-slate-300">
+                  Placeholder for mock interview question generator.
+                </div>
+              </div>
+
+              <!-- Account & billing view -->
+              <div id="view-account" class="dashboard-view hidden">
+                <h2 class="text-lg font-semibold text-slate-50 mb-2">
+                  Account &amp; billing
+                </h2>
+                <p class="text-sm text-slate-400 mb-4">
+                  Basic account information. In Phase 2, this can show transaction history, invoices and package upgrades.
+                </p>
+                <div class="dashboard-card space-y-2 text-sm text-slate-300">
+                  <p>Email: <span id="accountEmail">user@example.com</span></p>
+                  <p>Current package: <span id="accountPackage">Career Pack</span></p>
+                  <p>Status: <span class="text-emerald-400 font-medium">Active</span></p>
+                </div>
+              </div>
+            </div>
+
+          </section>
+
+        </div>
+      </main>
+    </div>
+  </div>
+
+  <script src="./js/dashboard.js"></script>
+</body>
+</html>
