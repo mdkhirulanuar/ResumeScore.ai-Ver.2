@@ -138,7 +138,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const waClearBtn = document.getElementById('clearWaDataBtn');
 
     // TODO: Replace with your real WhatsApp number in international format without plus sign (e.g. 6019XXXXXXX)
-    const waNumber = '60123456789';
+    const waNumber = '60182523255';
 
     if (waForm && waBtn) {
         // Restore saved data if present
@@ -255,4 +255,11 @@ document.addEventListener('DOMContentLoaded', () => {
             target.scrollIntoView({ behavior: 'smooth', block: 'start' });
         });
     });
+    // Register service worker for PWA
+    if ('serviceWorker' in navigator) {
+        navigator.serviceWorker.register('./sw.js').catch(function (err) {
+            console.log('Service worker registration failed from main.js:', err);
+        });
+    }
+
 });

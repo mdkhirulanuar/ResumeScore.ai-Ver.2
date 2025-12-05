@@ -1,8 +1,10 @@
-const CACHE_NAME = "career-align-cache-v1";
+const CACHE_NAME = "career-align-cache-v2";
 const ASSETS = [
   "./",
   "./index.html",
   "./dashboard.html",
+  "./privacy.html",
+  "./terms.html",
   "./css/style.css",
   "./js/main.js",
   "./js/dashboard.js",
@@ -25,6 +27,7 @@ self.addEventListener("activate", (event) => {
           if (name !== CACHE_NAME) {
             return caches.delete(name);
           }
+          return null;
         })
       )
     )

@@ -17,6 +17,10 @@
     <!-- Optional external CSS -->
     <link rel="stylesheet" href="./css/style.css">
 
+    <!-- PWA manifest -->
+    <link rel="manifest" href="./manifest.json">
+    <meta name="theme-color" content="#020617">
+
     <style>
         :root {
             --brand-primary: #22c55e;
@@ -687,7 +691,7 @@
                         Best if you already have a resume and just want clarity before applying to a specific job.
                     </p>
                     <div class="mb-4">
-                        <div class="text-2xl font-semibold text-slate-50">RM<span>XX</span></div>
+                        <div class="text-2xl font-semibold text-slate-50">RM<span>39</span></div>
                         <div class="text-[11px] text-slate-500">One-time, per package</div>
                     </div>
                     <ul class="text-xs text-slate-200 space-y-2 mb-5">
@@ -725,7 +729,7 @@
                         Best if your resume keeps getting ignored or rejected and you want a stronger ATS-friendly version.
                     </p>
                     <div class="mb-4">
-                        <div class="text-2xl font-semibold text-slate-50">RM<span>YY</span></div>
+                        <div class="text-2xl font-semibold text-slate-50">RM<span>159</span></div>
                         <div class="text-[11px] text-slate-400">One-time, per package</div>
                     </div>
                     <ul class="text-xs text-slate-100 space-y-2 mb-5">
@@ -758,7 +762,7 @@
                         Best if you’re serious about interviewing for multiple roles and want end-to-end support.
                     </p>
                     <div class="mb-4">
-                        <div class="text-2xl font-semibold text-slate-50">RM<span>ZZ</span></div>
+                        <div class="text-2xl font-semibold text-slate-50">RM<span>279</span></div>
                         <div class="text-[11px] text-slate-500">One-time, per package</div>
                     </div>
                     <ul class="text-xs text-slate-200 space-y-2 mb-5">
@@ -1346,7 +1350,7 @@
         }
 
         // WhatsApp form (simple version)
-        const waNumber = '60123456789'; // TUKAR KE NOMBOR WHATSAPP SEBENAR
+        const waNumber = '60182523255'; // TUKAR KE NOMBOR WHATSAPP SEBENAR
         const waForm = document.getElementById('waLeadForm');
         const waError = document.getElementById('waFormError');
         const waGenerateBtn = document.getElementById('generateWaBtn');
@@ -1437,6 +1441,13 @@
                 }
             });
         }
+        // Register service worker for PWA
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.register('./sw.js').catch(function (err) {
+                console.log('Service worker registration failed:', err);
+            });
+        }
+
     });
 </script>
 
