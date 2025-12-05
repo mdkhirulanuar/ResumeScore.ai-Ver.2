@@ -1,866 +1,1491 @@
 <!DOCTYPE html>
-<html lang="en" class="scroll-smooth">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CareerAlign | AI-Powered Resume Scoring & Optimisation</title>
-    <meta name="description" content="Is your resume truly application-ready? CareerAlign analyses your resume against real job descriptions, scores the match, and delivers ATS-optimised resumes, tailored cover letters and interview prep for Malaysian jobseekers.">
-    <!-- Open Graph metadata for social sharing -->
-    <meta property="og:title" content="CareerAlign – AI-Powered Resume Scoring & Optimisation">
-    <meta property="og:description" content="Is your resume truly application-ready? CareerAlign analyses your resume against real job descriptions, scores the match, and delivers ATS-optimised resumes, tailored cover letters and interview prep for Malaysian jobseekers.">
-    <meta property="og:type" content="website">
-    <meta property="og:url" content="">
-    <meta property="og:image" content="img/favicon.png">
-    <!-- Favicon -->
-    <link rel="icon" type="image/png" href="img/favicon.png">
+    <title>CareerAlign – Resume &amp; Job Match AI Assistant</title>
+    <meta name="description"
+          content="CareerAlign helps you see how well your resume matches any job description, shows the gaps, and gives ATS-friendly improvements so you can apply with confidence.">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- Tailwind CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&display=swap" rel="stylesheet">
-    
-    <link rel="stylesheet" href="css/style.css">
-    <link rel="manifest" href="./manifest.json" />
-    <meta name="theme-color" content="#020617" />
+
+    <!-- Font Awesome (icons) -->
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"/>
+
+    <!-- Optional external CSS (boleh buang kalau tak guna) -->
+    <link rel="stylesheet" href="./css/style.css">
+
+    <style>
+        :root {
+            --brand-primary: #22c55e;
+            --brand-secondary: #3b82f6;
+        }
+
+        body {
+            background-color: #020617;
+            color: #e5e7eb;
+        }
+
+        /* NAVBAR */
+        #navbar {
+            transition:
+                    background-color 0.18s ease-out,
+                    box-shadow 0.18s ease-out,
+                    padding 0.18s ease-out,
+                    border-bottom-color 0.18s ease-out;
+        }
+
+        #navbar.nav-scrolled {
+            background-color: rgba(2, 6, 23, 0.96);
+            box-shadow: 0 18px 45px rgba(15, 23, 42, 0.9);
+            border-bottom-color: rgba(51, 65, 85, 0.9);
+            padding-top: 0.4rem;
+            padding-bottom: 0.4rem;
+        }
+
+        /* BUTTONS */
+        .btn-primary {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.35rem;
+            padding: 0.7rem 1.5rem;
+            border-radius: 999px;
+            border: none;
+            font-weight: 600;
+            font-size: 0.95rem;
+            background: linear-gradient(135deg, var(--brand-secondary), var(--brand-primary));
+            color: #0b1120;
+            box-shadow: 0 18px 40px rgba(15, 23, 42, 0.7);
+            cursor: pointer;
+            transition: transform 0.12s ease-out, box-shadow 0.12s ease-out, filter 0.12s ease-out;
+            text-decoration: none;
+            white-space: nowrap;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 22px 50px rgba(15, 23, 42, 0.85);
+            filter: brightness(1.05);
+        }
+
+        .btn-primary:active {
+            transform: translateY(0);
+            box-shadow: 0 10px 25px rgba(15, 23, 42, 0.8);
+        }
+
+        .btn-secondary {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.35rem;
+            padding: 0.65rem 1.35rem;
+            border-radius: 999px;
+            border: 1px solid rgba(148, 163, 184, 0.7);
+            font-weight: 500;
+            font-size: 0.9rem;
+            background: rgba(15, 23, 42, 0.8);
+            color: #e5e7eb;
+            cursor: pointer;
+            transition: background 0.12s ease-out, border-color 0.12s ease-out, transform 0.12s ease-out;
+            text-decoration: none;
+            white-space: nowrap;
+        }
+
+        .btn-secondary:hover {
+            background: rgba(31, 41, 55, 0.95);
+            border-color: #e5e7eb;
+            transform: translateY(-1px);
+        }
+
+        .btn-ghost {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.35rem;
+            padding: 0.45rem 0.9rem;
+            border-radius: 999px;
+            border: 1px dashed rgba(148, 163, 184, 0.75);
+            font-size: 0.85rem;
+            background: transparent;
+            color: #9ca3af;
+            cursor: pointer;
+            transition: border-color 0.12s ease-out, background 0.12s ease-out, color 0.12s ease-out;
+            text-decoration: none;
+        }
+
+        .btn-ghost:hover {
+            border-color: #e5e7eb;
+            background: rgba(15, 23, 42, 0.85);
+            color: #e5e7eb;
+        }
+
+        /* FEATURE ICON */
+        .feature-icon-box {
+            width: 3.4rem;
+            height: 3.4rem;
+            border-radius: 1.25rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.35rem;
+            background-color: rgba(15, 23, 42, 0.96);
+            border: 1px solid rgba(148, 163, 184, 0.8);
+        }
+
+        /* SIMULATOR */
+        #simulator {
+            border-radius: 1rem;
+            border: 1px solid rgba(30, 64, 175, 0.5);
+            background:
+                    radial-gradient(circle at top left, rgba(59, 130, 246, 0.14), transparent),
+                    radial-gradient(circle at bottom right, rgba(52, 211, 153, 0.1), transparent),
+                    #020617;
+            padding: 1.25rem;
+        }
+
+        .requirement-row {
+            display: grid;
+            grid-template-columns: minmax(0, 1.9fr) minmax(0, 1.1fr);
+            gap: 0.75rem;
+            align-items: center;
+            padding: 0.6rem 0.4rem;
+            border-bottom: 1px dashed rgba(51, 65, 85, 0.9);
+        }
+
+        .requirement-row:last-child {
+            border-bottom: none;
+        }
+
+        .match-options {
+            display: flex;
+            gap: 0.35rem;
+        }
+
+        .match-option {
+            flex: 1;
+            font-size: 0.7rem;
+            border-radius: 999px;
+            padding: 0.25rem 0.4rem;
+            border: 1px solid rgba(148, 163, 184, 0.85);
+            background-color: rgba(15, 23, 42, 0.92);
+            color: #cbd5f5;
+            cursor: pointer;
+            transition: background 0.12s ease-out, color 0.12s ease-out, border-color 0.12s ease-out, transform 0.08s ease-out;
+            text-align: center;
+            white-space: nowrap;
+        }
+
+        .match-option.active[data-level="yes"] {
+            background: rgba(34, 197, 94, 0.2);
+            border-color: rgba(34, 197, 94, 0.95);
+            color: #bbf7d0;
+            transform: translateY(-1px);
+        }
+
+        .match-option.active[data-level="partial"] {
+            background: rgba(245, 158, 11, 0.18);
+            border-color: rgba(245, 158, 11, 0.95);
+            color: #fed7aa;
+            transform: translateY(-1px);
+        }
+
+        .match-option.active[data-level="gap"] {
+            background: rgba(248, 113, 113, 0.2);
+            border-color: rgba(248, 113, 113, 0.95);
+            color: #fecaca;
+            transform: translateY(-1px);
+        }
+
+        .sim-bar-track {
+            width: 100%;
+            height: 0.5rem;
+            border-radius: 999px;
+            background: rgba(15, 23, 42, 1);
+            overflow: hidden;
+            border: 1px solid rgba(51, 65, 85, 1);
+        }
+
+        .sim-bar-fill {
+            height: 100%;
+            width: 0%;
+            border-radius: 999px;
+            background: linear-gradient(90deg, #f97373, #facc15, #22c55e);
+            transition: width 0.18s ease-out;
+        }
+
+        /* FAQ */
+        .faq-content {
+            display: none;
+        }
+
+        .faq-item.open .faq-content {
+            display: block;
+        }
+
+        .faq-item.open .faq-icon {
+            transform: rotate(45deg);
+        }
+
+        /* TESTIMONIAL CARD */
+        .testimonial-card {
+            background: radial-gradient(circle at top left, rgba(59, 130, 246, 0.18), transparent),
+            #020617;
+            border-radius: 1.25rem;
+            border: 1px solid rgba(30, 64, 175, 0.8);
+            box-shadow: 0 18px 40px rgba(15, 23, 42, 0.9);
+        }
+    </style>
 </head>
-<body class="bg-slate-50 text-slate-800 font-sans antialiased">
-    <!-- Skip to content link for accessibility -->
-    <a href="#content" class="sr-only focus:not-sr-only absolute left-0 top-0 p-2 bg-white text-black z-50">Skip to content</a>
-    <nav id="navbar" class="fixed w-full z-50 transition-all duration-300 bg-transparent py-4">
-        <div class="max-w-7xl mx-auto px-6">
-            <div class="flex justify-between items-center h-16">
-                <div class="flex items-center gap-2 cursor-pointer">
-                    <div class="w-10 h-10 bg-brand-600 rounded-lg flex items-center justify-center text-white text-xl">
-                        <i class="fa-solid fa-layer-group"></i>
-                    </div>
-                    <span class="font-bold text-xl tracking-tight text-white nav-text">CareerAlign</span>
+<body class="min-h-screen bg-slate-950 text-slate-50 antialiased">
+
+<!-- ================= NAVBAR ================= -->
+<header id="navbar"
+        class="fixed inset-x-0 top-0 z-40 border-b border-transparent bg-gradient-to-b from-slate-950/95 to-slate-950/40">
+    <div class="max-w-6xl mx-auto flex items-center justify-between px-4 py-4">
+        <a href="#hero" class="flex items-center gap-2">
+            <span
+                class="inline-flex h-8 w-8 items-center justify-center rounded-xl bg-sky-500/10 border border-sky-500/40 text-sky-400 text-sm font-semibold">
+                CA
+            </span>
+            <div class="flex flex-col">
+                <span class="text-sm font-semibold tracking-tight text-slate-50">CareerAlign</span>
+                <span class="text-[10px] uppercase tracking-[0.22em] text-slate-500">
+                    Resume &amp; Job Match AI
+                </span>
+            </div>
+        </a>
+
+        <nav class="hidden md:flex items-center gap-6 text-xs font-medium text-slate-300">
+            <a href="#features" class="hover:text-sky-300 transition-colors">Features</a>
+            <a href="#demo" class="hover:text-sky-300 transition-colors">How it works</a>
+            <a href="#pricing" class="hover:text-sky-300 transition-colors">Packages</a>
+            <a href="#testimonials" class="hover:text-sky-300 transition-colors">Results</a>
+            <a href="#faq" class="hover:text-sky-300 transition-colors">FAQ</a>
+        </nav>
+
+        <div class="hidden md:flex items-center gap-2">
+            <a href="#start" class="btn-ghost text-[11px]">
+                Need help? WhatsApp
+            </a>
+            <a href="#pricing" class="btn-primary text-[11px]">
+                Get started
+            </a>
+        </div>
+
+        <button id="mobile-menu-btn"
+                class="md:hidden inline-flex items-center justify-center rounded-lg border border-slate-700 bg-slate-900/80 px-2.5 py-1.5 text-slate-200 text-xs">
+            Menu
+        </button>
+    </div>
+
+    <div id="mobile-menu" class="md:hidden hidden border-t border-slate-800 bg-slate-950/98">
+        <nav class="px-4 py-3 text-sm text-slate-200 space-y-2">
+            <a href="#features" class="block py-1">Features</a>
+            <a href="#demo" class="block py-1">How it works</a>
+            <a href="#pricing" class="block py-1">Packages</a>
+            <a href="#testimonials" class="block py-1">Results</a>
+            <a href="#faq" class="block py-1">FAQ</a>
+            <a href="#start" class="block py-1">WhatsApp / Help</a>
+        </nav>
+    </div>
+</header>
+
+<main class="pt-20">
+
+    <!-- =============== HERO =============== -->
+    <section id="hero" class="relative overflow-hidden bg-slate-950">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 pt-12 pb-18 lg:flex lg:items-center lg:gap-12">
+            <div class="lg:w-1/2">
+                <div
+                    class="inline-flex items-center gap-2 rounded-full border border-sky-500/40 bg-sky-500/10 px-3 py-1 text-[11px] font-medium uppercase tracking-wide text-sky-300 mb-4">
+                    <span class="inline-flex h-2 w-2 rounded-full bg-emerald-400"></span>
+                    AI-powered job match &amp; resume optimisation
                 </div>
-                
-                <div class="hidden md:flex space-x-8 items-center">
-                    <a href="#features" class="text-slate-300 hover:text-white font-medium transition nav-link">Features</a>
-                    <a href="#demo" class="text-slate-300 hover:text-white font-medium transition nav-link">How it Works</a>
-                    <a href="#pricing" class="text-slate-300 hover:text-white font-medium transition nav-link">Pricing</a>
-                    <!-- Updated CTA to scroll to the lead form instead of jumping straight to WhatsApp -->
-                    <a href="#start" class="bg-white text-brand-900 px-6 py-2.5 rounded-full font-bold hover:bg-brand-50 transition shadow-lg transform hover:-translate-y-0.5">
-                        Start Now
+
+                <h1 class="text-3xl sm:text-4xl lg:text-5xl font-semibold text-slate-50 tracking-tight mb-4 leading-tight">
+                    Stop guessing if your resume fits the job.
+                    <span class="block text-sky-400">
+                        See the match, fix the gaps, and apply with confidence.
+                    </span>
+                </h1>
+
+                <p class="text-sm sm:text-base text-slate-200 mb-6 max-w-xl leading-relaxed">
+                    CareerAlign analyses your resume against any job description, gives you a clear match score,
+                    highlights gaps line-by-line, and generates ATS-friendly improvements so you know exactly what to fix
+                    before you click “Apply”.
+                </p>
+
+                <div class="mb-6">
+                    <p class="text-[11px] font-semibold uppercase tracking-[0.15em] text-slate-400 mb-2">
+                        This is for you if you are:
+                    </p>
+                    <div class="flex flex-wrap gap-2">
+                        <span
+                            class="inline-flex items-center rounded-full bg-slate-900/80 px-3 py-1 text-[11px] text-slate-100 border border-slate-700/80">
+                            Fresh graduate / intern hunter
+                        </span>
+                        <span
+                            class="inline-flex items-center rounded-full bg-slate-900/80 px-3 py-1 text-[11px] text-slate-100 border border-slate-700/80">
+                            Sending many applications but getting no replies
+                        </span>
+                        <span
+                            class="inline-flex items-center rounded-full bg-slate-900/80 px-3 py-1 text-[11px] text-slate-100 border border-slate-700/80">
+                            Stuck in current role and want to switch career
+                        </span>
+                    </div>
+                </div>
+
+                <div class="flex flex-wrap items-center gap-3 mb-7">
+                    <a href="#pricing" class="btn-primary">
+                        Get my JobMatch report
                     </a>
-                    <a href="./dashboard.html" class="text-slate-300 hover:text-white font-medium transition nav-link border border-slate-600 px-4 py-2 rounded-full">Login</a>
+                    <a href="#demo" class="btn-secondary">
+                        See a sample report
+                    </a>
                 </div>
 
-                <button id="mobile-menu-btn" class="md:hidden text-white focus:outline-none">
-                    <i class="fa-solid fa-bars text-2xl"></i>
-                </button>
-            </div>
-        </div>
-        <div id="mobile-menu" class="hidden absolute top-full left-0 w-full bg-white shadow-xl border-t border-slate-100 p-6 flex-col gap-4">
-            <a href="#features" class="text-slate-600 font-medium">Features</a>
-            <a href="#pricing" class="text-slate-600 font-medium">Pricing</a>
-            <!-- Mobile menu CTA now scrolls to the lead form -->
-            <a href="#start" class="bg-brand-600 text-white py-3 rounded-lg font-bold text-center">Start Now</a>
-            <a href="./dashboard.html" class="border border-slate-300 text-slate-700 py-3 rounded-lg font-semibold text-center">Login</a>
-        </div>
-    </nav>
-
-    <header id="content" class="relative pt-32 pb-24 lg:pt-48 lg:pb-40 overflow-hidden bg-slate-900">
-        <div class="absolute inset-0 bg-gradient-to-br from-slate-900 via-brand-900 to-slate-900 z-0"></div>
-        <div class="absolute inset-0 opacity-20" style="background-image: radial-gradient(#4f46e5 1px, transparent 1px); background-size: 40px 40px;"></div>
-        
-        <div class="max-w-7xl mx-auto px-6 relative z-10">
-            <div class="grid lg:grid-cols-2 gap-16 items-center">
-                <div class="text-center lg:text-left">
-                    <div class="inline-block px-4 py-1.5 rounded-full border border-brand-500/30 bg-brand-900/50 backdrop-blur-sm mb-6">
-                        <span class="text-brand-300 text-sm font-semibold tracking-wide uppercase">Focused on Malaysian jobseekers</span>
+                <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 text-xs sm:text-sm text-slate-300/95">
+                    <div class="rounded-xl border border-slate-700/80 bg-slate-900/80 px-3 py-3">
+                        <div class="text-[10px] font-semibold uppercase tracking-[0.15em] text-slate-400 mb-1">Step 1
+                        </div>
+                        <div class="font-medium text-slate-50 mb-1">Upload your resume</div>
+                        <p class="text-[11px] text-slate-400">
+                            Start with your current resume or CV, even if you feel it’s “not ready”.
+                        </p>
                     </div>
-                    <h1 class="text-5xl lg:text-7xl font-bold text-white leading-tight mb-6">
-                        Is your resume <br>
-                        <span class="text-transparent bg-clip-text bg-gradient-to-r from-brand-300 to-accent-400">truly application-ready?</span>
-                    </h1>
-                    <p class="text-xl text-slate-300 mb-6 leading-relaxed max-w-2xl mx-auto lg:mx-0">
-                        Upload your resume and the job description. I’ll analyse how well they match,
-                        highlight critical gaps, and prepare an ATS-optimised resume and tailored cover letter
-                        so you can apply with confidence.
-                    </p>
-                    <p class="text-sm text-slate-400 mb-10 max-w-2xl mx-auto lg:mx-0">
-                        Designed for Malaysian job postings, HR practices and ATS systems. Ideal for fresh graduates,
-                        retrenched professionals and career switchers who are not sure if their resume is “good enough”.
-                    </p>
-                    <div class="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
-                        <!-- Primary CTA: check score with simulator -->
-                        <a href="#simulator" class="px-8 py-4 bg-brand-600 hover:bg-brand-500 text-white rounded-xl font-bold transition shadow-lg shadow-brand-600/25 flex items-center justify-center gap-2">
-                            <span>Check my match score demo</span>
-                            <i class="fa-solid fa-arrow-right"></i>
-                        </a>
-                        <!-- Secondary CTA: lead form to get started -->
-                        <a href="#start" class="px-8 py-4 bg-white/10 hover:bg-white/20 backdrop-blur-md text-white border border-white/10 rounded-xl font-semibold transition flex items-center justify-center gap-2">
-                            <i class="fa-solid fa-rocket"></i>
-                            <span>I’m ready to use the service</span>
-                        </a>
+                    <div class="rounded-xl border border-slate-700/80 bg-slate-900/80 px-3 py-3">
+                        <div class="text-[10px] font-semibold uppercase tracking-[0.15em] text-slate-400 mb-1">Step 2
+                        </div>
+                        <div class="font-medium text-slate-50 mb-1">Paste the job description</div>
+                        <p class="text-[11px] text-slate-400">
+                            Drop in any job ad or JD link so the AI knows exactly what the employer wants.
+                        </p>
                     </div>
-                    <!-- Trust badges -->
-                    <div class="mt-8 grid grid-cols-1 sm:grid-cols-3 gap-4 text-slate-400 text-xs sm:text-sm">
-                        <div class="flex items-center gap-2 justify-center sm:justify-start">
-                            <i class="fa-solid fa-user-shield text-brand-400"></i>
-                            <span>Structured, human-reviewed output</span>
+                    <div class="rounded-xl border border-slate-700/80 bg-slate-900/80 px-3 py-3">
+                        <div class="text-[10px] font-semibold uppercase tracking-[0.15em] text-slate-400 mb-1">Step 3
                         </div>
-                        <div class="flex items-center gap-2 justify-center sm:justify-start">
-                            <i class="fa-solid fa-check-circle text-brand-400"></i>
-                            <span>Quantified match score &amp; gaps</span>
-                        </div>
-                        <div class="flex items-center gap-2 justify-center sm:justify-start">
-                            <i class="fa-solid fa-lock text-brand-400"></i>
-                            <span>Your documents stay private</span>
-                        </div>
+                        <div class="font-medium text-slate-50 mb-1">Get score, gaps &amp; actions</div>
+                        <p class="text-[11px] text-slate-400">
+                            See your match %, where you fall short, and get ATS-friendly suggestions to fix it.
+                        </p>
                     </div>
                 </div>
 
-                <div id="simulator" class="relative group perspective-1000">
-                    <!-- Requirement Match Playground -->
-                    <div class="absolute -inset-1 bg-gradient-to-r from-brand-400 to-accent-400 rounded-2xl blur opacity-30 group-hover:opacity-60 transition duration-1000"></div>
-                    <div class="relative bg-white/95 backdrop-blur-xl rounded-2xl p-8 shadow-2xl border border-white/20">
-                        <div class="flex justify-between items-center mb-6 border-b border-slate-200 pb-4">
-                            <div>
-                                <h3 class="font-bold text-slate-800 text-lg">Requirement Match Playground</h3>
-                                <p class="text-xs text-slate-500">Tap how well you match each requirement to see an example score.</p>
-                            </div>
-                            <div class="bg-slate-100 px-3 py-1 rounded-md text-xs font-mono font-bold text-slate-600">demo</div>
-                        </div>
-                        <!-- Requirement rows -->
-                        <div class="space-y-3 mb-8" id="requirement-playground">
-                            <!-- Row 1 -->
-                            <div class="requirement-row flex items-start justify-between gap-3 p-3 rounded-lg border border-slate-200">
-                                <div>
-                                    <p class="text-sm font-semibold text-slate-700">Core skills</p>
-                                    <p class="text-xs text-slate-500">Do you clearly show the core skills listed in the job description?</p>
-                                </div>
-                                <div class="inline-flex rounded-full bg-slate-100 text-xs font-semibold overflow-hidden">
-                                    <button class="match-option px-3 py-1 text-slate-600 border-r border-slate-200" data-level="gap">No</button>
-                                    <button class="match-option px-3 py-1 text-slate-600 border-r border-slate-200" data-level="partial">Partial</button>
-                                    <button class="match-option px-3 py-1 text-slate-600" data-level="yes">Yes</button>
-                                </div>
-                            </div>
-                            <!-- Row 2 -->
-                            <div class="requirement-row flex items-start justify-between gap-3 p-3 rounded-lg border border-slate-200">
-                                <div>
-                                    <p class="text-sm font-semibold text-slate-700">Relevant experience</p>
-                                    <p class="text-xs text-slate-500">Is your experience clearly tied to the same industry or function?</p>
-                                </div>
-                                <div class="inline-flex rounded-full bg-slate-100 text-xs font-semibold overflow-hidden">
-                                    <button class="match-option px-3 py-1 text-slate-600 border-r border-slate-200" data-level="gap">No</button>
-                                    <button class="match-option px-3 py-1 text-slate-600 border-r border-slate-200" data-level="partial">Partial</button>
-                                    <button class="match-option px-3 py-1 text-slate-600" data-level="yes">Yes</button>
-                                </div>
-                            </div>
-                            <!-- Row 3 -->
-                            <div class="requirement-row flex items-start justify-between gap-3 p-3 rounded-lg border border-slate-200">
-                                <div>
-                                    <p class="text-sm font-semibold text-slate-700">Tools &amp; certifications</p>
-                                    <p class="text-xs text-slate-500">Do you mention the tools, systems or certifications the job asks for?</p>
-                                </div>
-                                <div class="inline-flex rounded-full bg-slate-100 text-xs font-semibold overflow-hidden">
-                                    <button class="match-option px-3 py-1 text-slate-600 border-r border-slate-200" data-level="gap">No</button>
-                                    <button class="match-option px-3 py-1 text-slate-600 border-r border-slate-200" data-level="partial">Partial</button>
-                                    <button class="match-option px-3 py-1 text-slate-600" data-level="yes">Yes</button>
-                                </div>
-                            </div>
-                            <!-- Row 4 -->
-                            <div class="requirement-row flex items-start justify-between gap-3 p-3 rounded-lg border border-slate-200">
-                                <div>
-                                    <p class="text-sm font-semibold text-slate-700">Impact &amp; metrics</p>
-                                    <p class="text-xs text-slate-500">Do you quantify results with numbers, percentages or clear outcomes?</p>
-                                </div>
-                                <div class="inline-flex rounded-full bg-slate-100 text-xs font-semibold overflow-hidden">
-                                    <button class="match-option px-3 py-1 text-slate-600 border-r border-slate-200" data-level="gap">No</button>
-                                    <button class="match-option px-3 py-1 text-slate-600 border-r border-slate-200" data-level="partial">Partial</button>
-                                    <button class="match-option px-3 py-1 text-slate-600" data-level="yes">Yes</button>
-                                </div>
-                            </div>
-                            <!-- Row 5 -->
-                            <div class="requirement-row flex items-start justify-between gap-3 p-3 rounded-lg border border-slate-200">
-                                <div>
-                                    <p class="text-sm font-semibold text-slate-700">Soft skills &amp; ownership</p>
-                                    <p class="text-xs text-slate-500">Do you show communication, leadership or ownership relevant to the role?</p>
-                                </div>
-                                <div class="inline-flex rounded-full bg-slate-100 text-xs font-semibold overflow-hidden">
-                                    <button class="match-option px-3 py-1 text-slate-600 border-r border-slate-200" data-level="gap">No</button>
-                                    <button class="match-option px-3 py-1 text-slate-600 border-r border-slate-200" data-level="partial">Partial</button>
-                                    <button class="match-option px-3 py-1 text-slate-600" data-level="yes">Yes</button>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- Score area -->
-                        <div class="bg-slate-900 rounded-xl p-5 text-center">
-                            <p class="text-slate-400 text-xs uppercase tracking-wider mb-2 font-bold">Match probability (example)</p>
-                            <div id="sim-score" class="text-5xl font-bold text-white mb-2 transition-all">0%</div>
-                            <div class="w-full bg-slate-700 h-2 rounded-full overflow-hidden">
-                                <div id="sim-bar" class="h-full bg-red-500 w-[0%] transition-all duration-700"></div>
-                            </div>
-                            <p id="sim-message" class="text-slate-300 text-sm mt-2 font-medium">Start selecting matches to see how we score your fit.</p>
-                            <div class="flex justify-center gap-4 mt-3 text-xs text-slate-400">
-                                <span><span id="sim-strong">0</span> strong matches</span>
-                                <span><span id="sim-partial">0</span> partial</span>
-                                <span><span id="sim-gaps">5</span> gaps</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </header>
-
-    <!-- Features Section -->
-    <section id="features" class="py-24 bg-white">
-        <div class="max-w-7xl mx-auto px-6 space-y-16">
-            <!-- Pain section -->
-            <div>
-                <div class="text-center max-w-3xl mx-auto mb-12">
-                    <h2 class="text-3xl font-bold text-slate-900 mb-4">
-                        Why your applications might be ignored
-                    </h2>
-                    <p class="text-slate-600 text-lg">
-                        Most CVs fail before a human even sees them. We fix the core problems blocking interviews:
-                    </p>
-                </div>
-                <div class="grid md:grid-cols-3 gap-8">
-                    <!-- ATS filters you out -->
-                    <div class="bg-slate-50 p-8 rounded-2xl border border-slate-100 hover:shadow-xl hover:-translate-y-1 transition duration-300">
-                        <div class="w-14 h-14 bg-slate-900/5 text-slate-900 rounded-xl flex items-center justify-center text-2xl mb-6">
-                            <i class="fa-solid fa-gear"></i>
-                        </div>
-                        <h3 class="text-xl font-bold text-slate-900 mb-3">ATS filters you out</h3>
-                        <p class="text-slate-600 leading-relaxed">
-                            Your resume is not aligned with the keywords, format and structure that Applicant Tracking Systems expect, so you never pass the first screen.
-                        </p>
-                    </div>
-                    <!-- No clear job fit -->
-                    <div class="bg-slate-50 p-8 rounded-2xl border border-slate-100 hover:shadow-xl hover:-translate-y-1 transition duration-300">
-                        <div class="w-14 h-14 bg-slate-900/5 text-slate-900 rounded-xl flex items-center justify-center text-2xl mb-6">
-                            <i class="fa-solid fa-bullseye"></i>
-                        </div>
-                        <h3 class="text-xl font-bold text-slate-900 mb-3">No clear job fit</h3>
-                        <p class="text-slate-600 leading-relaxed">
-                            Recruiters cannot quickly see why you match the role. Your achievements and experience are not mapped clearly to the job requirements.
-                        </p>
-                    </div>
-                    <!-- Wrong positioning -->
-                    <div class="bg-slate-50 p-8 rounded-2xl border border-slate-100 hover:shadow-xl hover:-translate-y-1 transition duration-300">
-                        <div class="w-14 h-14 bg-slate-900/5 text-slate-900 rounded-xl flex items-center justify-center text-2xl mb-6">
-                            <i class="fa-regular fa-image"></i>
-                        </div>
-                        <h3 class="text-xl font-bold text-slate-900 mb-3">Wrong positioning</h3>
-                        <p class="text-slate-600 leading-relaxed">
-                            Your CV might be “okay” but it does not signal the right level, scope or impact to justify interviews or higher salary bands.
-                        </p>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Solution section -->
-            <div>
-                <div class="text-center max-w-3xl mx-auto mb-12">
-                    <h2 class="text-3xl font-bold text-slate-900 mb-4">
-                        What CareerAlign does for you
-                    </h2>
-                    <p class="text-slate-600 text-lg">
-                        A structured, AI-assisted process that turns your existing resume into a high-converting job application toolkit.
-                    </p>
-                </div>
-                <div class="grid md:grid-cols-4 gap-8">
-                    <!-- AI job match score -->
-                    <div class="bg-slate-50 p-8 rounded-2xl border border-slate-100 hover:shadow-xl hover:-translate-y-1 transition duration-300">
-                        <div class="w-14 h-14 bg-indigo-100 text-indigo-600 rounded-xl flex items-center justify-center text-2xl mb-6">
-                            <i class="fa-solid fa-chart-simple"></i>
-                        </div>
-                        <h3 class="text-lg font-bold text-slate-900 mb-3">AI job match score</h3>
-                        <p class="text-slate-600 leading-relaxed text-sm">
-                            Your resume is compared against the job description with a consultant-style framework: Yes/Partial/No scoring and an overall % alignment.
-                        </p>
-                    </div>
-                    <!-- Deep requirement analysis -->
-                    <div class="bg-slate-50 p-8 rounded-2xl border border-slate-100 hover:shadow-xl hover:-translate-y-1 transition duration-300">
-                        <div class="w-14 h-14 bg-rose-100 text-rose-600 rounded-xl flex items-center justify-center text-2xl mb-6">
-                            <i class="fa-solid fa-brain"></i>
-                        </div>
-                        <h3 class="text-lg font-bold text-slate-900 mb-3">Deep requirement analysis</h3>
-                        <p class="text-slate-600 leading-relaxed text-sm">
-                            We unpack the role into skills, experience, outcomes and responsibilities so you know exactly what the employer is really buying.
-                        </p>
-                    </div>
-                    <!-- ATS-ready resume rewrite -->
-                    <div class="bg-slate-50 p-8 rounded-2xl border border-slate-100 hover:shadow-xl hover:-translate-y-1 transition duration-300">
-                        <div class="w-14 h-14 bg-amber-100 text-amber-600 rounded-xl flex items-center justify-center text-2xl mb-6">
-                            <i class="fa-solid fa-file-lines"></i>
-                        </div>
-                        <h3 class="text-lg font-bold text-slate-900 mb-3">ATS-ready resume rewrite</h3>
-                        <p class="text-slate-600 leading-relaxed text-sm">
-                            Your CV is rebuilt in ATS-friendly format with optimised sections, bullet points and relevant keywords for your target role.
-                        </p>
-                    </div>
-                    <!-- Premium positioning -->
-                    <div class="bg-slate-50 p-8 rounded-2xl border border-slate-100 hover:shadow-xl hover:-translate-y-1 transition duration-300">
-                        <div class="w-14 h-14 bg-emerald-100 text-emerald-600 rounded-xl flex items-center justify-center text-2xl mb-6">
-                            <i class="fa-solid fa-rocket"></i>
-                        </div>
-                        <h3 class="text-lg font-bold text-slate-900 mb-3">Premium positioning</h3>
-                        <p class="text-slate-600 leading-relaxed text-sm">
-                            For premium packages, you also get tailored cover letters and mock interview prep so your documents and talking points align to the same target role.
-                        </p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- How CareerAlign Works Section -->
-    <section id="demo" class="py-24 bg-slate-50">
-        <div class="max-w-7xl mx-auto px-6">
-            <div class="text-center mb-12">
-                <h2 class="text-3xl font-bold text-slate-900 mb-4">How CareerAlign Works</h2>
-                <p class="text-slate-600 text-lg">
-                    Four clear steps from “Not sure” to “Application ready”.
+                <p class="mt-4 text-[11px] sm:text-xs text-slate-500">
+                    Powered by OpenAI (ChatGPT) + a structured framework designed specifically for job seekers who
+                    are not sure how to “sell” themselves on paper.
                 </p>
             </div>
-            <div class="space-y-8">
-                <!-- Step 1 -->
-                <div class="flex gap-4 items-start bg-white rounded-2xl border border-slate-100 p-5 shadow-sm">
-                    <div class="flex flex-col items-center mr-1">
-                        <div class="w-9 h-9 rounded-full bg-brand-600 text-white flex items-center justify-center text-sm font-bold">
-                            1
+
+            <div class="mt-10 lg:mt-0 lg:w-1/2">
+                <div
+                    class="relative rounded-2xl border border-sky-500/25 bg-slate-900/80 p-4 shadow-[0_25px_60px_rgba(15,23,42,0.9)]">
+                    <div class="flex items-center justify-between mb-3">
+                        <span class="text-xs font-medium text-slate-200">Sample JobMatch overview</span>
+                        <span
+                            class="inline-flex items-center gap-1 rounded-full bg-emerald-500/10 px-2 py-1 text-[10px] font-semibold text-emerald-300 border border-emerald-400/60">
+                            <span class="h-1.5 w-1.5 rounded-full bg-emerald-400"></span>
+                            ATS friendly
+                        </span>
+                    </div>
+                    <div class="flex items-center gap-4 mb-4">
+                        <div
+                            class="flex flex-col items-center justify-center rounded-xl bg-slate-950/90 px-4 py-3 border border-slate-800">
+                            <div class="text-[10px] uppercase tracking-[0.18em] text-slate-400 mb-1">Match score</div>
+                            <div class="text-3xl font-semibold text-emerald-400">78<span class="text-xl">%</span></div>
+                            <div class="text-[11px] text-slate-400 mt-1">Good fit, can be improved</div>
                         </div>
-                        <div class="mt-2 w-8 h-8 rounded-full bg-brand-50 flex items-center justify-center">
-                            <i class="fa-solid fa-file-arrow-up text-brand-600 text-sm"></i>
+                        <div class="flex-1 space-y-2 text-[11px]">
+                            <div class="flex justify-between text-slate-200">
+                                <span>Requirements fully met</span>
+                                <span class="text-emerald-400 font-medium">9</span>
+                            </div>
+                            <div class="flex justify-between text-slate-200">
+                                <span>Partially met</span>
+                                <span class="text-amber-300 font-medium">4</span>
+                            </div>
+                            <div class="flex justify-between text-slate-200">
+                                <span>Critical gaps</span>
+                                <span class="text-rose-300 font-medium">2</span>
+                            </div>
                         </div>
                     </div>
-                    <div>
-                        <h3 class="text-base font-semibold text-slate-900 mb-1">Share your resume &amp; job link</h3>
-                        <p class="text-sm text-slate-600 leading-relaxed">
-                            Send your current resume and the job ad or job description for the role you want via WhatsApp. One main role per report for maximum precision.
-                        </p>
-                    </div>
-                </div>
-                <!-- Step 2 -->
-                <div class="flex gap-4 items-start bg-white rounded-2xl border border-slate-100 p-5 shadow-sm">
-                    <div class="flex flex-col items-center mr-1">
-                        <div class="w-9 h-9 rounded-full bg-brand-600 text-white flex items-center justify-center text-sm font-bold">
-                            2
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 text-[11px] text-slate-200">
+                        <div class="rounded-xl bg-slate-900/90 border border-slate-800 p-3">
+                            <div
+                                class="text-[10px] font-semibold uppercase tracking-[0.18em] text-emerald-300 mb-1">Strengths
+                            </div>
+                            <ul class="space-y-1 text-slate-300">
+                                <li>• Strong alignment with key responsibilities in JD.</li>
+                                <li>• Clear impact metrics for 2 previous roles.</li>
+                                <li>• Relevant tools &amp; software already listed.</li>
+                            </ul>
                         </div>
-                        <div class="mt-2 w-8 h-8 rounded-full bg-brand-50 flex items-center justify-center">
-                            <i class="fa-solid fa-robot text-brand-600 text-sm"></i>
-                        </div>
-                    </div>
-                    <div>
-                        <h3 class="text-base font-semibold text-slate-900 mb-1">AI analysis &amp; structured scoring</h3>
-                        <p class="text-sm text-slate-600 leading-relaxed">
-                            We run a structured AI evaluation to calculate your alignment score, highlight gaps and surface hidden strengths you are not positioning well.
-                        </p>
-                    </div>
-                </div>
-                <!-- Step 3 -->
-                <div class="flex gap-4 items-start bg-white rounded-2xl border border-slate-100 p-5 shadow-sm">
-                    <div class="flex flex-col items-center mr-1">
-                        <div class="w-9 h-9 rounded-full bg-brand-600 text-white flex items-center justify-center text-sm font-bold">
-                            3
-                        </div>
-                        <div class="mt-2 w-8 h-8 rounded-full bg-brand-50 flex items-center justify-center">
-                            <i class="fa-solid fa-clipboard-list text-brand-600 text-sm"></i>
+                        <div class="rounded-xl bg-slate-900/90 border border-slate-800 p-3">
+                            <div
+                                class="text-[10px] font-semibold uppercase tracking-[0.18em] text-rose-300 mb-1">Gaps to fix
+                            </div>
+                            <ul class="space-y-1 text-slate-300">
+                                <li>• Missing 1–2 keywords from “Requirements” section.</li>
+                                <li>• No clear example for stakeholder management.</li>
+                                <li>• Summary is generic, not tailored to this role.</li>
+                            </ul>
                         </div>
                     </div>
-                    <div>
-                        <h3 class="text-base font-semibold text-slate-900 mb-1">Receive your report &amp; recommendations</h3>
-                        <p class="text-sm text-slate-600 leading-relaxed">
-                            You get a clean report with clear Yes/Partial/No scoring, overall % alignment and specific suggestions to fix your profile for that role.
-                        </p>
-                    </div>
-                </div>
-                <!-- Step 4 -->
-                <div class="flex gap-4 items-start bg-white rounded-2xl border border-slate-100 p-5 shadow-sm">
-                    <div class="flex flex-col items-center mr-1">
-                        <div class="w-9 h-9 rounded-full bg-brand-600 text-white flex items-center justify-center text-sm font-bold">
-                            4
-                        </div>
-                        <div class="mt-2 w-8 h-8 rounded-full bg-brand-50 flex items-center justify-center">
-                            <i class="fa-solid fa-rocket text-brand-600 text-sm"></i>
-                        </div>
-                    </div>
-                    <div>
-                        <h3 class="text-base font-semibold text-slate-900 mb-1">Upgrade your resume &amp; applications</h3>
-                        <p class="text-sm text-slate-600 leading-relaxed">
-                            For rewrite and premium packages, we deliver an ATS-ready CV, custom cover letter and role-specific prep notes so your applications are ready to send.
-                        </p>
+                    <div
+                        class="mt-3 rounded-lg bg-sky-500/5 border border-sky-500/25 px-3 py-2 text-[11px] text-sky-100">
+                        <span class="font-semibold text-sky-300">Next action:</span>
+                        Refine your headline to mention the target role, add 1 quantified achievement for stakeholder
+                        work, and include 2 missing keywords from the JD in your experience section.
                     </div>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- Testimonials Section -->
-    <section id="testimonials" class="py-24 bg-white">
-        <div class="max-w-7xl mx-auto px-6">
-            <div class="text-center mb-12">
-                <h2 class="text-3xl font-bold text-slate-900 mb-4">
-                    What Malaysian jobseekers say about CareerAlign
+    <!-- =============== FEATURES =============== -->
+    <section id="features" class="bg-slate-950/95 border-t border-slate-900 py-20">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 space-y-12">
+            <div class="text-center max-w-3xl mx-auto">
+                <p class="text-xs font-semibold uppercase tracking-[0.25em] text-sky-400 mb-2">
+                    More than just a CV template
+                </p>
+                <h2 class="text-2xl sm:text-3xl font-semibold text-slate-50 mb-3">
+                    Structured, measurable feedback instead of vague “advice”.
                 </h2>
+                <p class="text-sm sm:text-base text-slate-300">
+                    CareerAlign is built for job seekers who don’t know what hiring managers look for.
+                    You get clear numbers, concrete gaps, and specific wording suggestions – not just generic tips.
+                </p>
             </div>
-            <div class="grid md:grid-cols-3 gap-8">
-                <!-- Testimonial 1 -->
-                <article class="bg-slate-50 border border-slate-100 rounded-2xl p-6 shadow-sm hover:shadow-lg hover:-translate-y-1 transition">
-                    <div class="flex items-center gap-4 mb-4">
-                        <div class="w-12 h-12 rounded-full overflow-hidden bg-slate-200">
-                            <img src="img/testimonials/testimonial-1.jpg" alt="Amir, fresh graduate" class="w-full h-full object-cover">
-                        </div>
-                        <div>
-                            <p class="font-semibold text-slate-900 text-sm">Amir, 24</p>
-                            <p class="text-xs text-slate-500">Fresh graduate · Computer Science</p>
-                        </div>
+
+            <div class="grid md:grid-cols-4 gap-7">
+                <div
+                    class="bg-slate-900/80 p-5 rounded-2xl border border-slate-800 hover:-translate-y-1 hover:shadow-xl hover:shadow-slate-900/80 transition">
+                    <div
+                        class="feature-icon-box text-sky-400 mb-4 border-sky-500/60 flex items-center justify-center">
+                        <i class="fa-solid fa-chart-line"></i>
                     </div>
-                    <p class="text-sm text-slate-700 mb-3 leading-relaxed">
-                        “As a fresh graduate I wasn’t sure how to turn assignments and internships into real experience. The report showed which requirements were still ‘No’ and how to reword my projects. After the ATS rewrite I finally started getting screening calls.”
+                    <h3 class="text-sm font-semibold text-slate-50 mb-1">JobMatch score that makes sense</h3>
+                    <p class="text-xs text-slate-300 leading-relaxed">
+                        See a clear match % between your resume and the job description, broken down by each requirement
+                        so you know exactly where you stand.
                     </p>
-                    <div class="flex items-center gap-3 mt-3">
-                        <span class="inline-flex items-center gap-1 text-xs font-semibold text-emerald-600 bg-emerald-50 px-2.5 py-1 rounded-full">
-                            <i class="fa-solid fa-arrow-trend-up text-[11px]"></i>
-                            From 0 to 3 interviews
-                        </span>
-                        <span class="hidden sm:inline-block text-xs text-slate-500">Package: ATS Rewrite</span>
+                </div>
+
+                <div
+                    class="bg-slate-900/80 p-5 rounded-2xl border border-slate-800 hover:-translate-y-1 hover:shadow-xl hover:shadow-slate-900/80 transition">
+                    <div
+                        class="feature-icon-box text-rose-400 mb-4 border-rose-500/60 flex items-center justify-center">
+                        <i class="fa-solid fa-brain"></i>
                     </div>
-                </article>
-                <!-- Testimonial 2 -->
-                <article class="bg-slate-50 border border-slate-100 rounded-2xl p-6 shadow-sm hover:shadow-lg hover:-translate-y-1 transition">
-                    <div class="flex items-center gap-4 mb-4">
-                        <div class="w-12 h-12 rounded-full overflow-hidden bg-slate-200">
-                            <img src="img/testimonials/testimonial-2.jpg" alt="Siti, mid-career switcher" class="w-full h-full object-cover">
-                        </div>
-                        <div>
-                            <p class="font-semibold text-slate-900 text-sm">Siti, 30</p>
-                            <p class="text-xs text-slate-500">Mid-career switcher · Admin → Quality</p>
-                        </div>
-                    </div>
-                    <p class="text-sm text-slate-700 mb-3 leading-relaxed">
-                        “I wanted to move from general admin into a proper Quality role but my old CV didn’t match the job description at all. The Yes/Partial/No scoring showed which tasks were already relevant. After repositioning, my match score went above 70% for the target role.”
+                    <h3 class="text-sm font-semibold text-slate-50 mb-1">AI brain + human-designed structure</h3>
+                    <p class="text-xs text-slate-300 leading-relaxed">
+                        Powered by OpenAI (ChatGPT), guided by a framework designed for non-HR users,
+                        so outputs stay focused on what recruiters care about.
                     </p>
-                    <div class="flex items-center gap-3 mt-3">
-                        <span class="inline-flex items-center gap-1 text-xs font-semibold text-brand-600 bg-brand-50 px-2.5 py-1 rounded-full">
-                            <i class="fa-solid fa-bullseye text-[11px]"></i>
-                            Stronger job fit
-                        </span>
-                        <span class="hidden sm:inline-block text-xs text-slate-500">Package: Audit + ATS Rewrite</span>
+                </div>
+
+                <div
+                    class="bg-slate-900/80 p-5 rounded-2xl border border-slate-800 hover:-translate-y-1 hover:shadow-xl hover:shadow-slate-900/80 transition">
+                    <div
+                        class="feature-icon-box text-amber-400 mb-4 border-amber-500/60 flex items-center justify-center">
+                        <i class="fa-solid fa-file-lines"></i>
                     </div>
-                </article>
-                <!-- Testimonial 3 -->
-                <article class="bg-slate-50 border border-slate-100 rounded-2xl p-6 shadow-sm hover:shadow-lg hover:-translate-y-1 transition">
-                    <div class="flex items-center gap-4 mb-4">
-                        <div class="w-12 h-12 rounded-full overflow-hidden bg-slate-200">
-                            <img src="img/testimonials/testimonial-3.jpg" alt="Daniel, previously unemployed" class="w-full h-full object-cover">
-                        </div>
-                        <div>
-                            <p class="font-semibold text-slate-900 text-sm">Daniel, 35</p>
-                            <p class="text-xs text-slate-500">Previously unemployed · Operations Lead</p>
-                        </div>
-                    </div>
-                    <p class="text-sm text-slate-700 mb-3 leading-relaxed">
-                        “I had been out of work for almost eight months and started doubting my profile. CareerAlign helped me frame the gap honestly but professionally, and highlight results from my last role. The new CV and cover letter felt like a fresh start.”
+                    <h3 class="text-sm font-semibold text-slate-50 mb-1">ATS-friendly rewrites</h3>
+                    <p class="text-xs text-slate-300 leading-relaxed">
+                        Transform your CV into a cleaner, keyword-aligned version that is easier for ATS and human
+                        recruiters to scan quickly.
                     </p>
-                    <div class="flex items-center gap-3 mt-3">
-                        <span class="inline-flex items-center gap-1 text-xs font-semibold text-purple-600 bg-purple-50 px-2.5 py-1 rounded-full">
-                            <i class="fa-solid fa-briefcase text-[11px]"></i>
-                            Back in shortlists
-                        </span>
-                        <span class="hidden sm:inline-block text-xs text-slate-500">Package: Career Pack</span>
+                </div>
+
+                <div
+                    class="bg-slate-900/80 p-5 rounded-2xl border border-slate-800 hover:-translate-y-1 hover:shadow-xl hover:shadow-slate-900/80 transition">
+                    <div
+                        class="feature-icon-box text-emerald-400 mb-4 border-emerald-500/60 flex items-center justify-center">
+                        <i class="fa-solid fa-rocket"></i>
                     </div>
-                </article>
-                <!-- Testimonial 4 -->
-                <article class="bg-slate-50 border border-slate-100 rounded-2xl p-6 shadow-sm hover:shadow-lg hover:-translate-y-1 transition">
-                    <div class="flex items-center gap-4 mb-4">
-                        <div class="w-12 h-12 rounded-full overflow-hidden bg-slate-200">
-                            <img src="img/testimonials/testimonial-4.jpg" alt="Nurul, contract staff" class="w-full h-full object-cover">
-                        </div>
-                        <div>
-                            <p class="font-semibold text-slate-900 text-sm">Nurul, 27</p>
-                            <p class="text-xs text-slate-500">Contract staff · Admin Support</p>
-                        </div>
-                    </div>
-                    <p class="text-sm text-slate-700 mb-3 leading-relaxed">
-                        “I was only on a contract and felt like my CV looked empty. After seeing the report, I knew what to add and how to describe my daily responsibilities. When a permanent position opened, the updated CV was ready to send.”
+                    <h3 class="text-sm font-semibold text-slate-50 mb-1">Ready for interviews, not just applications</h3>
+                    <p class="text-xs text-slate-300 leading-relaxed">
+                        Get role-specific mock questions and talking points so you know how to present your CV when you
+                        finally get the interview.
                     </p>
-                    <div class="flex items-center gap-3 mt-3">
-                        <span class="inline-flex items-center gap-1 text-xs font-semibold text-amber-600 bg-amber-50 px-2.5 py-1 rounded-full">
-                            <i class="fa-solid fa-id-card text-[11px]"></i>
-                            Ready for permanent roles
-                        </span>
-                        <span class="hidden sm:inline-block text-xs text-slate-500">Package: Audit</span>
-                    </div>
-                </article>
-                <!-- Testimonial 5 -->
-                <article class="bg-slate-50 border border-slate-100 rounded-2xl p-6 shadow-sm hover:shadow-lg hover:-translate-y-1 transition">
-                    <div class="flex items-center gap-4 mb-4">
-                        <div class="w-12 h-12 rounded-full overflow-hidden bg-slate-200">
-                            <img src="img/testimonials/testimonial-5.jpg" alt="Farid, retrenched technician" class="w-full h-full object-cover">
-                        </div>
-                        <div>
-                            <p class="font-semibold text-slate-900 text-sm">Farid, 29</p>
-                            <p class="text-xs text-slate-500">Retrenched · Manufacturing Technician</p>
-                        </div>
-                    </div>
-                    <p class="text-sm text-slate-700 mb-3 leading-relaxed">
-                        “When the plant closed, I sent out many CVs and heard nothing back. CareerAlign changed how I explained shift work, downtime and line output. After that I was shortlisted for several other manufacturing plants.”
-                    </p>
-                    <div class="flex items-center gap-3 mt-3">
-                        <span class="inline-flex items-center gap-1 text-xs font-semibold text-emerald-600 bg-emerald-50 px-2.5 py-1 rounded-full">
-                            <i class="fa-solid fa-industry text-[11px]"></i>
-                            More relevant to employers
-                        </span>
-                        <span class="hidden sm:inline-block text-xs text-slate-500">Package: ATS Rewrite</span>
-                    </div>
-                </article>
-                <!-- Testimonial 6 -->
-                <article class="bg-slate-50 border border-slate-100 rounded-2xl p-6 shadow-sm hover:shadow-lg hover:-translate-y-1 transition">
-                    <div class="flex items-center gap-4 mb-4">
-                        <div class="w-12 h-12 rounded-full overflow-hidden bg-slate-200">
-                            <img src="img/testimonials/testimonial-6.jpg" alt="Priya, diploma holder" class="w-full h-full object-cover">
-                        </div>
-                        <div>
-                            <p class="font-semibold text-slate-900 text-sm">Priya, 26</p>
-                            <p class="text-xs text-slate-500">Diploma holder · Customer Service</p>
-                        </div>
-                    </div>
-                    <p class="text-sm text-slate-700 mb-3 leading-relaxed">
-                        “I always felt my qualifications were not strong enough because I’m not from a top university. During the process we focused on actual results and customer feedback. After rewriting the bullet points, my CV looks much more professional.”
-                    </p>
-                    <div class="flex items-center gap-3 mt-3">
-                        <span class="inline-flex items-center gap-1 text-xs font-semibold text-blue-600 bg-blue-50 px-2.5 py-1 rounded-full">
-                            <i class="fa-solid fa-star text-[11px]"></i>
-                            Looks more professional
-                        </span>
-                        <span class="hidden sm:inline-block text-xs text-slate-500">Package: Career Pack</span>
-                    </div>
-                </article>
+                </div>
             </div>
         </div>
     </section>
 
-    <!-- Pricing Section -->
-    <section id="pricing" class="py-20 bg-slate-950">
-        <div class="max-w-5xl mx-auto px-4">
-            <header class="text-center mb-10">
-                <h2 class="text-3xl font-semibold text-white mb-2">Choose your CareerAlign package</h2>
-                <p class="text-slate-400 text-sm max-w-2xl mx-auto">
-                    Step 1: Pay securely with SenangPay. Step 2: Complete the WhatsApp form below with your payment reference and job details.
+    <!-- =============== DEMO & SIMULATOR =============== -->
+    <section id="demo" class="bg-slate-950 border-t border-slate-900 py-20">
+        <div class="max-w-5xl mx-auto px-4 sm:px-6">
+            <div class="text-center mb-10">
+                <p class="text-xs font-semibold uppercase tracking-[0.25em] text-sky-400 mb-2">
+                    See how CareerAlign thinks
                 </p>
-            </header>
+                <h2 class="text-2xl sm:text-3xl font-semibold text-slate-50 mb-3">
+                    Try a quick simulation and preview the type of insights you get.
+                </h2>
+                <p class="text-sm sm:text-base text-slate-300 max-w-2xl mx-auto">
+                    This simple requirement simulator shows how your match score changes when you fully meet,
+                    partially meet, or completely miss the job requirements. The real system goes much deeper – but the
+                    idea is the same.
+                </p>
+            </div>
+
+            <div class="mb-6 rounded-xl border border-slate-800 bg-slate-900/90 px-4 py-3">
+                <p class="text-xs text-slate-300 mb-1">
+                    Imagine this job ad requires:
+                </p>
+                <ul class="text-xs text-slate-400 grid gap-1 sm:grid-cols-2">
+                    <li>• 3+ years of relevant experience</li>
+                    <li>• Strong Excel / data analysis skills</li>
+                    <li>• Experience working with stakeholders or clients</li>
+                    <li>• Basic understanding of the industry or product</li>
+                    <li>• Clear, results-focused achievements in your CV</li>
+                </ul>
+            </div>
+
+            <div class="mb-4">
+                <h3 class="text-sm font-semibold text-slate-100 mb-2">
+                    Play with the requirements:
+                </h3>
+                <p class="text-xs text-slate-400 mb-4">
+                    For each requirement below, choose whether your current resume is a strong match, partial match,
+                    or a gap. We use a similar idea in the full AI analysis, but in much deeper detail.
+                </p>
+            </div>
+
+            <div id="simulator">
+                <div class="space-y-1 mb-4 text-xs">
+                    <div class="flex items-center justify-between text-slate-200">
+                        <span>Overall match score:</span>
+                        <span><span id="sim-score" class="font-semibold text-emerald-400">0</span>%</span>
+                    </div>
+                    <div class="sim-bar-track">
+                        <div id="sim-bar" class="sim-bar-fill"></div>
+                    </div>
+                    <div id="sim-message" class="text-[11px] text-slate-300 mt-1">
+                        Start by selecting how well you meet each requirement.
+                    </div>
+                </div>
+
+                <div class="space-y-1 mb-4">
+                    <div class="requirement-row">
+                        <div class="text-xs text-slate-200">
+                            1. Relevant experience (3+ years in this field)
+                        </div>
+                        <div class="match-options">
+                            <button class="match-option" data-level="yes">Yes</button>
+                            <button class="match-option" data-level="partial">Partial</button>
+                            <button class="match-option" data-level="gap">Gap</button>
+                        </div>
+                    </div>
+
+                    <div class="requirement-row">
+                        <div class="text-xs text-slate-200">
+                            2. Excel / data analysis skills (pivot tables, dashboards)
+                        </div>
+                        <div class="match-options">
+                            <button class="match-option" data-level="yes">Yes</button>
+                            <button class="match-option" data-level="partial">Partial</button>
+                            <button class="match-option" data-level="gap">Gap</button>
+                        </div>
+                    </div>
+
+                    <div class="requirement-row">
+                        <div class="text-xs text-slate-200">
+                            3. Stakeholder / client communication experience
+                        </div>
+                        <div class="match-options">
+                            <button class="match-option" data-level="yes">Yes</button>
+                            <button class="match-option" data-level="partial">Partial</button>
+                            <button class="match-option" data-level="gap">Gap</button>
+                        </div>
+                    </div>
+
+                    <div class="requirement-row">
+                        <div class="text-xs text-slate-200">
+                            4. Understanding of the industry or product
+                        </div>
+                        <div class="match-options">
+                            <button class="match-option" data-level="yes">Yes</button>
+                            <button class="match-option" data-level="partial">Partial</button>
+                            <button class="match-option" data-level="gap">Gap</button>
+                        </div>
+                    </div>
+
+                    <div class="requirement-row">
+                        <div class="text-xs text-slate-200">
+                            5. Clear, results-focused achievements in your CV
+                        </div>
+                        <div class="match-options">
+                            <button class="match-option" data-level="yes">Yes</button>
+                            <button class="match-option" data-level="partial">Partial</button>
+                            <button class="match-option" data-level="gap">Gap</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-3 gap-3 text-[11px] text-slate-300">
+                    <div class="rounded-lg border border-slate-800 bg-slate-950/80 px-3 py-2">
+                        <span class="block text-slate-400">
+                            Strong matches
+                        </span>
+                        <span id="sim-strong" class="text-emerald-400 font-semibold text-sm">0</span>
+                    </div>
+                    <div class="rounded-lg border border-slate-800 bg-slate-950/80 px-3 py-2">
+                        <span class="block text-slate-400">
+                            Partial matches
+                        </span>
+                        <span id="sim-partial" class="text-amber-300 font-semibold text-sm">0</span>
+                    </div>
+                    <div class="rounded-lg border border-slate-800 bg-slate-950/80 px-3 py-2">
+                        <span class="block text-slate-400">
+                            Gaps
+                        </span>
+                        <span id="sim-gaps" class="text-rose-300 font-semibold text-sm">0</span>
+                    </div>
+                </div>
+
+                <p class="mt-3 text-[11px] text-slate-400">
+                    The full AI report looks at many more sections of the job description and your CV,
+                    but the idea is the same: how many requirements are strong, partial, or missing?
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- =============== PRICING =============== -->
+    <section id="pricing" class="bg-slate-950/95 border-t border-slate-900 py-20">
+        <div class="max-w-5xl mx-auto px-4 sm:px-6">
+            <div class="text-center mb-10">
+                <p class="text-xs font-semibold uppercase tracking-[0.25em] text-emerald-400 mb-2">
+                    Choose your CareerAlign package
+                </p>
+                <h2 class="text-2xl sm:text-3xl font-semibold text-slate-50 mb-3">
+                    Start small or go all-in. Each package is powered by AI, not generic templates.
+                </h2>
+                <p class="text-sm sm:text-base text-slate-300 max-w-2xl mx-auto">
+                    All packages are built on the same AI engine (OpenAI / ChatGPT) with a structured framework
+                    designed for job seekers who don’t have CV-writing skills. Higher tiers simply give you more
+                    tools and more done-for-you outputs.
+                </p>
+            </div>
 
             <div class="grid gap-6 md:grid-cols-3">
-                <!-- Package 1: Audit -->
-                <article class="rounded-2xl border border-slate-800 bg-slate-900/60 p-6 flex flex-col">
-                    <h3 class="text-lg font-semibold text-white mb-1">Audit – Match Score Report</h3>
-                    <p class="text-3xl font-bold text-brand-400 mb-1">RM39</p>
-                    <p class="text-xs text-slate-400 mb-4">Best for: checking how well your current resume fits several jobs you are considering.</p>
-                    <ul class="text-sm text-slate-300 space-y-2 mb-4">
-                        <li>• Full Match Score (%) and gap report for <strong>1 main job description</strong>.</li>
-                        <li>• Yes / Partial / No breakdown for key requirements in that job posting.</li>
-                        <li>• Summary of biggest gaps and 3–5 practical suggestions you can implement yourself.</li>
-                        <li>• Up to <strong>4 additional Match Score requests</strong> using the same resume for other job descriptions within <strong>7 days</strong> (maximum 5 JDs in total).</li>
+                <!-- JobMatch -->
+                <div class="relative rounded-2xl border border-slate-800 bg-slate-900/90 p-5 flex flex-col">
+                    <div class="mb-2 text-xs font-semibold uppercase tracking-[0.18em] text-slate-400">
+                        Starter
+                    </div>
+                    <h3 class="text-lg font-semibold text-slate-50 mb-1">
+                        JobMatch Report
+                    </h3>
+                    <p class="text-xs text-slate-400 mb-4">
+                        Best if you already have a resume and just want clarity before applying to a specific job.
+                    </p>
+                    <div class="mb-4">
+                        <div class="text-2xl font-semibold text-slate-50">RM<span>XX</span></div>
+                        <div class="text-[11px] text-slate-500">One-time, per package</div>
+                    </div>
+                    <ul class="text-xs text-slate-200 space-y-2 mb-5">
+                        <li>✅ Up to <strong>5× AI JobMatch analyses</strong> for different job descriptions</li>
+                        <li>✅ Match score (%) with clear “Yes / Partial / Gap” breakdown per requirement</li>
+                        <li>✅ Summary of strengths and risk areas from a recruiter’s perspective</li>
+                        <li>✅ Simple action plan on how to improve your CV before you apply</li>
+                        <li>❌ No full ATS resume rewrite</li>
+                        <li>❌ No tailored cover letter or mock interview questions</li>
                     </ul>
-                    <div class="mt-auto flex flex-col gap-2">
-                        <!-- Replace href with your actual SenangPay product link -->
-                        <a href="#" target="_blank" rel="noopener"
-                           class="inline-flex items-center justify-center px-4 py-2.5 rounded-xl text-sm font-semibold bg-slate-100 text-slate-900 hover:bg-white">
-                            Pay RM39 with SenangPay
+                    <div class="mt-auto space-y-2">
+                        <a href="#start" class="btn-primary w-full justify-center">
+                            Get JobMatch Report
                         </a>
                         <p class="text-[11px] text-slate-500">
-                            If you upgrade to ATS Rewrite or Career Pack within 7 days, we deduct this RM39 from your chosen package.
+                            AI engine: OpenAI (ChatGPT) + CareerAlign scoring framework.
                         </p>
                     </div>
-                </article>
+                </div>
 
-                <!-- Package 2: ATS Rewrite – Most Popular -->
-                <article class="relative rounded-2xl border border-brand-500 bg-slate-900 p-6 flex flex-col shadow-xl shadow-brand-900/30">
-                    <span class="absolute -top-3 right-4 text-[11px] px-3 py-1 rounded-full bg-brand-500 text-slate-950 font-semibold tracking-wide">
-                        MOST POPULAR
-                    </span>
-                    <h3 class="text-lg font-semibold text-white mb-1">ATS Rewrite – Resume Optimisation</h3>
-                    <p class="text-3xl font-bold text-brand-300 mb-1">RM159</p>
-                    <p class="text-xs text-slate-300 mb-4">Best for: jobseekers who want a stronger, modern resume for one clear target role family.</p>
-                    <ul class="text-sm text-slate-100 space-y-2 mb-4">
-                        <li>• Everything in Audit for your main target job.</li>
-                        <li>• <strong>1 full ATS-friendly resume rewrite</strong> for your main target role.</li>
-                        <li>• Content tailored to Malaysian recruiters &amp; ATS, with clearer achievements and impact where possible.</li>
-                        <li>• Up to <strong>4 additional ATS tailoring requests</strong> for other job descriptions in the <strong>same role family</strong> within <strong>14 days</strong> (we tweak the master resume, not start from zero each time).</li>
-                        <li>• 1 round of refinement via WhatsApp after you review the draft.</li>
-                    </ul>
-                    <div class="mt-auto flex flex-col gap-2">
-                        <!-- Replace href with your actual SenangPay product link -->
-                        <a href="#" target="_blank" rel="noopener"
-                           class="inline-flex items-center justify-center px-4 py-2.5 rounded-xl text-sm font-semibold bg-emerald-500 hover:bg-emerald-400 text-slate-950">
-                            Pay RM159 with SenangPay
-                        </a>
-                        <p class="text-[11px] text-slate-400">
-                            Includes up to 5 ATS requests (1 master rewrite + 4 tailoring requests) that you can use across different job postings within 14 days.
-                        </p>
+                <!-- ATS Rewrite (Most popular) -->
+                <div
+                    class="relative rounded-2xl border border-emerald-500/70 bg-slate-900/95 p-5 shadow-[0_24px_65px_rgba(16,185,129,0.55)] flex flex-col scale-[1.01]">
+                    <div
+                        class="absolute -top-3 right-4 rounded-full bg-emerald-500 px-3 py-1 text-[10px] font-semibold uppercase tracking-[0.18em] text-slate-950">
+                        Most popular
                     </div>
-                </article>
-
-                <!-- Package 3: Career Pack -->
-                <article class="rounded-2xl border border-slate-800 bg-slate-900/60 p-6 flex flex-col">
-                    <h3 class="text-lg font-semibold text-white mb-1">Career Pack – Full Application Toolkit</h3>
-                    <p class="text-3xl font-bold text-brand-400 mb-1">RM279</p>
-                    <p class="text-xs text-slate-400 mb-4">Best for: serious jobseekers aiming for interviews in the next 1–3 months.</p>
-                    <ul class="text-sm text-slate-300 space-y-2 mb-4">
-                        <li>• Everything in ATS Rewrite.</li>
-                        <li>• <strong>1 tailored cover letter</strong> for your main target role/company.</li>
-                        <li>• Up to <strong>4 extra cover letter variations</strong> for similar roles or companies within <strong>21 days</strong> (we adapt the main cover letter so you do not start from scratch each time).</li>
-                        <li>• A <strong>role-specific mock interview question set</strong> with example talking points so you can practise before interviews.</li>
+                    <div class="mb-2 text-xs font-semibold uppercase tracking-[0.18em] text-emerald-300">
+                        Serious applications
+                    </div>
+                    <h3 class="text-lg font-semibold text-slate-50 mb-1">
+                        ATS Rewrite Pack
+                    </h3>
+                    <p class="text-xs text-slate-200 mb-4">
+                        Best if your resume keeps getting ignored or rejected and you want a stronger ATS-friendly version.
+                    </p>
+                    <div class="mb-4">
+                        <div class="text-2xl font-semibold text-slate-50">RM<span>YY</span></div>
+                        <div class="text-[11px] text-slate-400">One-time, per package</div>
+                    </div>
+                    <ul class="text-xs text-slate-100 space-y-2 mb-5">
+                        <li>✅ Everything in <strong>JobMatch Report</strong></li>
+                        <li>✅ Up to <strong>5× full ATS-friendly resume rewrites</strong> for different target roles</li>
+                        <li>✅ Keyword optimisation based on each job description</li>
+                        <li>✅ Improved structure, headings &amp; “impact” sentences for better readability</li>
+                        <li>❌ Cover letter not included</li>
+                        <li>❌ Mock interview questions not included</li>
                     </ul>
-                    <div class="mt-auto flex flex-col gap-2">
-                        <!-- Replace href with your actual SenangPay product link -->
-                        <a href="#" target="_blank" rel="noopener"
-                           class="inline-flex items-center justify-center px-4 py-2.5 rounded-xl text-sm font-semibold bg-slate-100 text-slate-900 hover:bg-white">
-                            Pay RM279 with SenangPay
+                    <div class="mt-auto space-y-2">
+                        <a href="#start" class="btn-primary w-full justify-center">
+                            Get ATS Rewrite Pack
                         </a>
                         <p class="text-[11px] text-slate-500">
-                            Designed as your full toolkit: resume, cover letters and interview preparation aligned to one clear target role.
+                            AI engine: OpenAI (ChatGPT) + CareerAlign ATS checklist.
                         </p>
                     </div>
-                </article>
+                </div>
+
+                <!-- Career Pack -->
+                <div class="relative rounded-2xl border border-slate-800 bg-slate-900/90 p-5 flex flex-col">
+                    <div class="mb-2 text-xs font-semibold uppercase tracking-[0.18em] text-slate-400">
+                        All-in preparation
+                    </div>
+                    <h3 class="text-lg font-semibold text-slate-50 mb-1">
+                        Career Pack
+                    </h3>
+                    <p class="text-xs text-slate-400 mb-4">
+                        Best if you’re serious about interviewing for multiple roles and want end-to-end support.
+                    </p>
+                    <div class="mb-4">
+                        <div class="text-2xl font-semibold text-slate-50">RM<span>ZZ</span></div>
+                        <div class="text-[11px] text-slate-500">One-time, per package</div>
+                    </div>
+                    <ul class="text-xs text-slate-200 space-y-2 mb-5">
+                        <li>✅ Everything in <strong>ATS Rewrite Pack</strong></li>
+                        <li>✅ Up to <strong>5× tailored cover letters</strong> for specific roles/companies</li>
+                        <li>✅ <strong>Role-specific mock interview questions</strong> based on the JD</li>
+                        <li>✅ Guidance on how to talk through your CV during interviews</li>
+                        <li>✅ Suggestions on how to reuse your new CV for future roles</li>
+                    </ul>
+                    <div class="mt-auto space-y-2">
+                        <a href="#start" class="btn-primary w-full justify-center">
+                            Get full Career Pack
+                        </a>
+                        <p class="text-[11px] text-slate-500">
+                            AI engine: OpenAI (ChatGPT) + CareerAlign coaching prompts.
+                        </p>
+                    </div>
+                </div>
             </div>
 
-            <p class="mt-6 text-[11px] text-center text-slate-500 max-w-2xl mx-auto">
-                Not sure which package to choose? Start with the Audit. If you upgrade within 7 days, we will deduct the RM39 you already paid from your next package.
+            <p class="mt-6 text-[11px] sm:text-xs text-slate-500 text-center max-w-3xl mx-auto">
+                You can start with a smaller package and upgrade later. For the fastest access to your tools, we recommend
+                using the package buttons above. If you prefer manual bank transfer or have special requests, you can still
+                reach us via WhatsApp at the bottom of this page.
             </p>
         </div>
     </section>
 
-    <!-- FAQ Section -->
-    <section id="faq" class="py-24 bg-slate-50">
-        <div class="max-w-4xl mx-auto px-6">
+    <!-- =============== TESTIMONIALS =============== -->
+    <section id="testimonials" class="bg-slate-950 border-t border-slate-900 py-20">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6">
             <div class="text-center mb-10">
-                <h2 class="text-3xl font-bold text-slate-900 mb-3">Frequently Asked Questions</h2>
-                <p class="text-slate-600 text-base">If you are still unsure, these answers might help before you decide.</p>
-            </div>
-            <div class="space-y-4">
-                <!-- Q1 -->
-                <div class="faq-item bg-white border border-slate-200 rounded-2xl p-4">
-                    <button class="w-full flex items-center justify-between text-left">
-                        <span class="font-semibold text-slate-900 text-sm md:text-base">1. Who is CareerAlign for?</span>
-                        <i class="fa-solid fa-chevron-down text-slate-400 text-xs transition-transform"></i>
-                    </button>
-                    <div class="mt-3 text-sm text-slate-600 hidden">
-                        CareerAlign is designed for jobseekers who feel they <strong>do not know where to start</strong> with ATS, keywords, and “professional” formatting. That includes fresh graduates, unemployed or retrenched candidates, contract staff, mid-career professionals who feel stuck, and career switchers.
-                    </div>
-                </div>
-                <!-- Q2 -->
-                <div class="faq-item bg-white border border-slate-200 rounded-2xl p-4">
-                    <button class="w-full flex items-center justify-between text-left">
-                        <span class="font-semibold text-slate-900 text-sm md:text-base">2. What do I need to send you to get started?</span>
-                        <i class="fa-solid fa-chevron-down text-slate-400 text-xs transition-transform"></i>
-                    </button>
-                    <div class="mt-3 text-sm text-slate-600 hidden">
-                        At minimum, we need:
-                        <ul class="list-disc list-inside mt-1 space-y-1">
-                            <li>Your latest resume (DOCX or PDF).</li>
-                            <li>The job ad link or the full job description text.</li>
-                        </ul>
-                        You simply send these via WhatsApp when you click any “Start” or pricing button on this page.
-                    </div>
-                </div>
-                <!-- Q3 -->
-                <div class="faq-item bg-white border border-slate-200 rounded-2xl p-4">
-                    <button class="w-full flex items-center justify-between text-left">
-                        <span class="font-semibold text-slate-900 text-sm md:text-base">3. I don’t have a proper resume yet. Can you still help?</span>
-                        <i class="fa-solid fa-chevron-down text-slate-400 text-xs transition-transform"></i>
-                    </button>
-                    <div class="mt-3 text-sm text-slate-600 hidden">
-                        Yes. If you only have a simple CV, an old file, or even just a list of experience, we can still work with it. The <strong>ATS Rewrite</strong> and <strong>Career Pack</strong> packages are suitable for people who need a full rebuild, not just minor edits.
-                    </div>
-                </div>
-                <!-- Q4 -->
-                <div class="faq-item bg-white border border-slate-200 rounded-2xl p-4">
-                    <button class="w-full flex items-center justify-between text-left">
-                        <span class="font-semibold text-slate-900 text-sm md:text-base">4. How long does the service take?</span>
-                        <i class="fa-solid fa-chevron-down text-slate-400 text-xs transition-transform"></i>
-                    </button>
-                    <div class="mt-3 text-sm text-slate-600 hidden">
-                        It depends on the package and our current queue, but as a guideline:
-                        <ul class="list-disc list-inside mt-1 space-y-1">
-                            <li><strong>Audit (RM39):</strong> typically within 24–48 hours.</li>
-                            <li><strong>ATS Rewrite (RM159):</strong> usually 3–5 working days after we receive everything.</li>
-                            <li><strong>Career Pack (RM279):</strong> around 5–7 working days including cover letter and prep notes.</li>
-                        </ul>
-                        We will confirm an estimated timeline when you message us on WhatsApp.
-                    </div>
-                </div>
-                <!-- Q5 -->
-                <div class="faq-item bg-white border border-slate-200 rounded-2xl p-4">
-                    <button class="w-full flex items-center justify-between text-left">
-                        <span class="font-semibold text-slate-900 text-sm md:text-base">5. Is my data and resume information private?</span>
-                        <i class="fa-solid fa-chevron-down text-slate-400 text-xs transition-transform"></i>
-                    </button>
-                    <div class="mt-3 text-sm text-slate-600 hidden">
-                        Yes. We treat your documents as confidential. We do <strong>not</strong> share your CV, contact details or job information with employers or third parties. Files are used only to deliver your report and rewritten documents, as explained in our Privacy Policy.
-                    </div>
-                </div>
-                <!-- Q6 -->
-                <div class="faq-item bg-white border border-slate-200 rounded-2xl p-4">
-                    <button class="w-full flex items-center justify-between text-left">
-                        <span class="font-semibold text-slate-900 text-sm md:text-base">6. Can you guarantee that I will get a job or interview?</span>
-                        <i class="fa-solid fa-chevron-down text-slate-400 text-xs transition-transform"></i>
-                    </button>
-                    <div class="mt-3 text-sm text-slate-600 hidden">
-                        No service can honestly guarantee a job or interview, because employers and market conditions are outside our control. What we <strong>do</strong> guarantee is a structured, evidence-based improvement to how you present your experience, your match score and your positioning for the role.
-                    </div>
-                </div>
-                <!-- Q7 -->
-                <div class="faq-item bg-white border border-slate-200 rounded-2xl p-4">
-                    <button class="w-full flex items-center justify-between text-left">
-                        <span class="font-semibold text-slate-900 text-sm md:text-base">7. Is the resume in English or Malay?</span>
-                        <i class="fa-solid fa-chevron-down text-slate-400 text-xs transition-transform"></i>
-                    </button>
-                    <div class="mt-3 text-sm text-slate-600 hidden">
-                        Most professional roles in Malaysia expect an <strong>English CV</strong>, so our default output is English. If you need a different language or a specific format for a particular role, you can mention this when you contact us and we will advise what is realistic.
-                    </div>
-                </div>
-                <!-- Q8 -->
-                <div class="faq-item bg-white border border-slate-200 rounded-2xl p-4">
-                    <button class="w-full flex items-center justify-between text-left">
-                        <span class="font-semibold text-slate-900 text-sm md:text-base">8. Can I reuse the same resume for other jobs?</span>
-                        <i class="fa-solid fa-chevron-down text-slate-400 text-xs transition-transform"></i>
-                    </button>
-                    <div class="mt-3 text-sm text-slate-600 hidden">
-                        Yes, but we always recommend <strong>light tailoring</strong> for each new job. Your rewritten resume will already follow a strong ATS-friendly structure, so it is easy to adjust keywords and bullet points yourself. If you want a full re-analysis for a very different role, you can order another Audit for that new job.
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Lead Form Section -->
-    <section id="start" class="py-24 bg-slate-900">
-        <div class="max-w-6xl mx-auto px-6 grid lg:grid-cols-2 gap-10 items-start">
-            <!-- Left copy -->
-            <div>
-                <h2 class="text-3xl md:text-4xl font-bold text-white mb-4">
-                    Step&nbsp;2 – Share your details via WhatsApp
+                <p class="text-xs font-semibold uppercase tracking-[0.25em] text-amber-300 mb-2">
+                    Real job seekers, real situations
+                </p>
+                <h2 class="text-2xl sm:text-3xl font-semibold text-slate-50 mb-3">
+                    Built for people who don’t know how to “sell” themselves on paper.
                 </h2>
-                <p class="text-slate-300 text-base md:text-lg mb-6">
-                    If you haven't paid yet, choose a package and pay with SenangPay above. Then complete this form and we’ll generate a WhatsApp message for you.
-                </p>
-                <ul class="space-y-2 text-sm text-slate-300 mb-6">
-                    <li class="flex items-start gap-2">
-                        <span class="mt-1 text-brand-300"><i class="fa-solid fa-bolt"></i></span>
-                        <span>All key details pre-filled so you can just hit send.</span>
-                    </li>
-                    <li class="flex items-start gap-2">
-                        <span class="mt-1 text-brand-300"><i class="fa-solid fa-clipboard-check"></i></span>
-                        <span>Includes your SenangPay payment reference for faster verification.</span>
-                    </li>
-                    <li class="flex items-start gap-2">
-                        <span class="mt-1 text-brand-300"><i class="fa-solid fa-earth-asia"></i></span>
-                        <span>Supports both local and international roles.</span>
-                    </li>
-                </ul>
-                <p class="text-xs text-slate-400">
-                    You will attach your resume and job description inside WhatsApp after sending the message.
+                <p class="text-sm sm:text-base text-slate-300 max-w-2xl mx-auto">
+                    Most of our users are not HR or CV experts. They just want a fair chance. Here’s how CareerAlign helped
+                    them move from “no replies” to actual interview opportunities.
                 </p>
             </div>
-            <!-- Right form -->
-            <div class="bg-slate-950/60 border border-slate-700 rounded-3xl p-6 md:p-7 shadow-2xl">
-                <form id="waLeadForm" class="space-y-4" autocomplete="on">
-                    <div class="">
-                        <label for="leadName" class="block text-sm font-medium text-slate-100 mb-1">Full name</label>
-                        <input id="leadName" name="leadName" type="text" required placeholder="Your full name"
-                               class="w-full rounded-xl border border-slate-600 bg-slate-900/60 text-slate-100 text-sm px-3 py-2.5 focus:outline-none focus:ring-2 focus:ring-brand-500 focus:border-brand-500 placeholder:text-slate-500">
+
+            <div class="grid gap-6 md:grid-cols-3">
+                <!-- 1 -->
+                <article class="testimonial-card p-5 text-xs text-slate-100 hover:-translate-y-1 transition">
+                    <div class="flex items-center gap-4 mb-4">
+                        <div class="w-12 h-12 rounded-full overflow-hidden bg-slate-800">
+                            <img src="./img/testimonials/amir.jpg" alt="Amir, fresh graduate"
+                                 class="w-full h-full object-cover">
+                        </div>
+                        <div>
+                            <p class="font-semibold text-sm text-slate-50">Amir, 24</p>
+                            <p class="text-[11px] text-slate-300">Fresh graduate · Computer Science</p>
+                        </div>
                     </div>
-                    <div class="">
-                        <label for="leadEmail" class="block text-sm font-medium text-slate-100 mb-1">Email (optional)</label>
-                        <input id="leadEmail" name="leadEmail" type="email" placeholder="you@example.com"
-                               class="w-full rounded-xl border border-slate-600 bg-slate-900/60 text-slate-100 text-sm px-3 py-2.5 focus:outline-none focus:ring-2 focus:ring-brand-500 focus:border-brand-500 placeholder:text-slate-500">
-                    </div>
-                    <div class="">
-                        <label for="leadWhatsapp" class="block text-sm font-medium text-slate-100 mb-1">WhatsApp number (with country code)</label>
-                        <input id="leadWhatsapp" name="leadWhatsapp" type="tel" required placeholder="6012XXXXXXX"
-                               class="w-full rounded-xl border border-slate-600 bg-slate-900/60 text-slate-100 text-sm px-3 py-2.5 focus:outline-none focus:ring-2 focus:ring-brand-500 focus:border-brand-500 placeholder:text-slate-500">
-                    </div>
-                    <div class="">
-                        <label for="leadSituation" class="block text-sm font-medium text-slate-100 mb-1">Current situation</label>
-                        <select id="leadSituation" name="leadSituation"
-                                class="w-full rounded-xl border border-slate-600 bg-slate-900/60 text-slate-100 text-sm px-3 py-2.5 focus:outline-none focus:ring-2 focus:ring-brand-500 focus:border-brand-500">
-                            <option value="">Select one</option>
-                            <option value="Fresh graduate">Fresh graduate</option>
-                            <option value="Unemployed / between jobs">Unemployed / between jobs</option>
-                            <option value="Working but looking to move">Working but looking to move</option>
-                            <option value="Career switcher">Career switcher</option>
-                            <option value="Other">Other</option>
-                        </select>
-                    </div>
-                    <div class="">
-                        <label for="leadTargetRole" class="block text-sm font-medium text-slate-100 mb-1">Target role &amp; industry</label>
-                        <input id="leadTargetRole" name="leadTargetRole" type="text" required placeholder="e.g. Quality Executive – Food Testing Lab"
-                               class="w-full rounded-xl border border-slate-600 bg-slate-900/60 text-slate-100 text-sm px-3 py-2.5 focus:outline-none focus:ring-2 focus:ring-brand-500 focus:border-brand-500 placeholder:text-slate-500">
-                    </div>
-                    <div class="">
-                        <label for="leadPackage" class="block text-sm font-medium text-slate-100 mb-1">Package paid</label>
-                        <select id="leadPackage" name="leadPackage" required
-                                class="w-full rounded-xl border border-slate-600 bg-slate-900/60 text-slate-100 text-sm px-3 py-2.5 focus:outline-none focus:ring-2 focus:ring-brand-500 focus:border-brand-500">
-                            <option value="">Select package</option>
-                            <option value="Audit – Match Score Report (RM39)">Audit – Match Score Report (RM39)</option>
-                            <option value="ATS Rewrite – Resume Optimisation (RM159)">ATS Rewrite – Resume Optimisation (RM159)</option>
-                            <option value="Career Pack – Full Application Toolkit (RM279)">Career Pack – Full Application Toolkit (RM279)</option>
-                        </select>
-                    </div>
-                    <div class="">
-                        <label for="leadPaymentRef" class="block text-sm font-medium text-slate-100 mb-1">SenangPay payment reference / proof</label>
-                        <input id="leadPaymentRef" name="leadPaymentRef" type="text" required
-                               placeholder="Transaction ref ID or note 'screenshot sent in WhatsApp'"
-                               class="w-full rounded-xl border border-slate-600 bg-slate-900/60 text-slate-100 text-sm px-3 py-2.5 focus:outline-none focus:ring-2 focus:ring-brand-500 focus:border-brand-500 placeholder:text-slate-500">
-                        <p class="mt-1 text-[11px] text-slate-500">
-                            You can paste your SenangPay receipt reference here. Or mention that you’ll send a screenshot in the chat.
-                        </p>
-                    </div>
-                    <div class="">
-                        <label for="leadJobInfo" class="block text-sm font-medium text-slate-100 mb-1">Job posting link or key responsibilities</label>
-                        <textarea id="leadJobInfo" name="leadJobInfo" rows="3" required
-                                  placeholder="Paste the job link or copy the main responsibilities from the job description."
-                                  class="w-full rounded-xl border border-slate-600 bg-slate-900/60 text-slate-100 text-sm px-3 py-2.5 focus:outline-none focus:ring-2 focus:ring-brand-500 focus:border-brand-500 placeholder:text-slate-500"></textarea>
-                    </div>
-                    <div class="">
-                        <label for="leadNotes" class="block text-sm font-medium text-slate-100 mb-1">Anything else we should know? (optional)</label>
-                        <textarea id="leadNotes" name="leadNotes" rows="3"
-                                  placeholder="E.g. career break, visa status, specific concerns, urgent timelines."
-                                  class="w-full rounded-xl border border-slate-600 bg-slate-900/60 text-slate-100 text-sm px-3 py-2.5 focus:outline-none focus:ring-2 focus:ring-brand-500 focus:border-brand-500 placeholder:text-slate-500"></textarea>
-                    </div>
-                    <div class="flex flex-col md:flex-row md:items-center gap-3 pt-2">
-                        <button type="button" id="generateWaBtn"
-                                class="inline-flex items-center justify-center rounded-xl px-4 py-2.5 text-sm font-semibold bg-emerald-500 hover:bg-emerald-400 text-slate-950">
-                            Generate WhatsApp message
-                        </button>
-                        <p class="text-[11px] text-slate-500 md:ml-2">
-                            We’ll open WhatsApp with a structured message. You can still edit it before sending.
-                            Your details are stored locally in your browser for next time.
-                        </p>
-                    </div>
-                    <p id="waFormError" class="text-xs text-red-400 hidden">
-                        Please fill in the required fields before generating the WhatsApp message.
+                    <p class="text-xs text-slate-200 mb-3 leading-relaxed">
+                        “As a fresh graduate I wasn’t sure how to turn assignments and internships into real experience.
+                        The report showed which requirements were still ‘No’ and how to reword my projects. After the ATS rewrite
+                        I finally started getting screening calls.”
                     </p>
-                </form>
+                    <div class="flex flex-wrap items-center gap-2 mt-1">
+                        <span
+                            class="inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-emerald-500/15 text-[11px] text-emerald-300 border border-emerald-400/60">
+                            <i class="fa-solid fa-arrow-trend-up text-[10px]"></i>
+                            From 0 to 3 interviews
+                        </span>
+                        <span class="text-[11px] text-slate-400">Package: ATS Rewrite</span>
+                    </div>
+                </article>
+
+                <!-- 2 -->
+                <article class="testimonial-card p-5 text-xs text-slate-100 hover:-translate-y-1 transition">
+                    <div class="flex items-center gap-4 mb-4">
+                        <div class="w-12 h-12 rounded-full overflow-hidden bg-slate-800">
+                            <img src="./img/testimonials/siti.jpg" alt="Siti, mid-career switcher"
+                                 class="w-full h-full object-cover">
+                        </div>
+                        <div>
+                            <p class="font-semibold text-sm text-slate-50">Siti, 30</p>
+                            <p class="text-[11px] text-slate-300">Mid-career switcher · Admin → Quality</p>
+                        </div>
+                    </div>
+                    <p class="text-xs text-slate-200 mb-3 leading-relaxed">
+                        “I wanted to move from general admin into a proper Quality role but my old CV didn’t match the job
+                        description at all. The Yes/Partial/No scoring showed which tasks were already relevant. After repositioning,
+                        my match score went above 70% for the target role.”
+                    </p>
+                    <div class="flex flex-wrap items-center gap-2 mt-1">
+                        <span
+                            class="inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-sky-500/15 text-[11px] text-sky-200 border border-sky-400/70">
+                            <i class="fa-solid fa-bullseye text-[10px]"></i>
+                            Stronger job fit
+                        </span>
+                        <span class="text-[11px] text-slate-400">Package: JobMatch + ATS Rewrite</span>
+                    </div>
+                </article>
+
+                <!-- 3 -->
+                <article class="testimonial-card p-5 text-xs text-slate-100 hover:-translate-y-1 transition">
+                    <div class="flex items-center gap-4 mb-4">
+                        <div class="w-12 h-12 rounded-full overflow-hidden bg-slate-800">
+                            <img src="./img/testimonials/daniel.jpg" alt="Daniel, previously unemployed"
+                                 class="w-full h-full object-cover">
+                        </div>
+                        <div>
+                            <p class="font-semibold text-sm text-slate-50">Daniel, 35</p>
+                            <p class="text-[11px] text-slate-300">Previously unemployed · Operations Lead</p>
+                        </div>
+                    </div>
+                    <p class="text-xs text-slate-200 mb-3 leading-relaxed">
+                        “I had been out of work around eight months and started doubting my profile. CareerAlign helped me frame
+                        the gap honestly but professionally, and highlight results from my last role. The new CV and cover letter
+                        felt like a fresh start.”
+                    </p>
+                    <div class="flex flex-wrap items-center gap-2 mt-1">
+                        <span
+                            class="inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-fuchsia-500/15 text-[11px] text-fuchsia-200 border border-fuchsia-400/70">
+                            <i class="fa-solid fa-rotate text-[10px]"></i>
+                            Back in shortlists
+                        </span>
+                        <span class="text-[11px] text-slate-400">Package: Career Pack</span>
+                    </div>
+                </article>
+
+                <!-- 4 -->
+                <article class="testimonial-card p-5 text-xs text-slate-100 hover:-translate-y-1 transition">
+                    <div class="flex items-center gap-4 mb-4">
+                        <div class="w-12 h-12 rounded-full overflow-hidden bg-slate-800">
+                            <img src="./img/testimonials/nurul.jpg" alt="Nurul, contract staff"
+                                 class="w-full h-full object-cover">
+                        </div>
+                        <div>
+                            <p class="font-semibold text-sm text-slate-50">Nurul, 27</p>
+                            <p class="text-[11px] text-slate-300">Contract staff · Admin Support</p>
+                        </div>
+                    </div>
+                    <p class="text-xs text-slate-200 mb-3 leading-relaxed">
+                        “I was only on a contract and felt like my CV looked empty. After seeing the report, I knew what to add and
+                        how to describe my daily responsibilities. When a permanent position opened, the updated CV was ready to send.”
+                    </p>
+                    <div class="flex flex-wrap items-center gap-2 mt-1">
+                        <span
+                            class="inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-amber-500/15 text-[11px] text-amber-200 border border-amber-400/70">
+                            <i class="fa-solid fa-briefcase text-[10px]"></i>
+                            Ready for permanent roles
+                        </span>
+                        <span class="text-[11px] text-slate-400">Package: JobMatch</span>
+                    </div>
+                </article>
+
+                <!-- 5 -->
+                <article class="testimonial-card p-5 text-xs text-slate-100 hover:-translate-y-1 transition">
+                    <div class="flex items-center gap-4 mb-4">
+                        <div class="w-12 h-12 rounded-full overflow-hidden bg-slate-800">
+                            <img src="./img/testimonials/farid.jpg" alt="Farid, retrenched"
+                                 class="w-full h-full object-cover">
+                        </div>
+                        <div>
+                            <p class="font-semibold text-sm text-slate-50">Farid, 29</p>
+                            <p class="text-[11px] text-slate-300">Retrenched · Manufacturing technician</p>
+                        </div>
+                    </div>
+                    <p class="text-xs text-slate-200 mb-3 leading-relaxed">
+                        “When the plant closed, I sent out many CVs and heard nothing back. CareerAlign changed how I explained shift
+                        work, downtime and line output. After that I was shortlisted for several other manufacturing plants.”
+                    </p>
+                    <div class="flex flex-wrap items-center gap-2 mt-1">
+                        <span
+                            class="inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-emerald-500/15 text-[11px] text-emerald-300 border border-emerald-400/70">
+                            <i class="fa-solid fa-user-check text-[10px]"></i>
+                            More relevant to employers
+                        </span>
+                        <span class="text-[11px] text-slate-400">Package: ATS Rewrite</span>
+                    </div>
+                </article>
+
+                <!-- 6 -->
+                <article class="testimonial-card p-5 text-xs text-slate-100 hover:-translate-y-1 transition">
+                    <div class="flex items-center gap-4 mb-4">
+                        <div class="w-12 h-12 rounded-full overflow-hidden bg-slate-800">
+                            <img src="./img/testimonials/priya.jpg" alt="Priya, diploma holder"
+                                 class="w-full h-full object-cover">
+                        </div>
+                        <div>
+                            <p class="font-semibold text-sm text-slate-50">Priya, 26</p>
+                            <p class="text-[11px] text-slate-300">Diploma holder · Customer Service</p>
+                        </div>
+                    </div>
+                    <p class="text-xs text-slate-200 mb-3 leading-relaxed">
+                        “I always felt my qualifications were not strong enough because I’m not from a top university. During the
+                        process we focused on actual results and customer feedback. After rewriting the bullet points, my CV
+                        looks much more professional.”
+                    </p>
+                    <div class="flex flex-wrap items-center gap-2 mt-1">
+                        <span
+                            class="inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-sky-500/15 text-[11px] text-sky-200 border border-sky-400/70">
+                            <i class="fa-solid fa-thumbs-up text-[10px]"></i>
+                            Looks more professional
+                        </span>
+                        <span class="text-[11px] text-slate-400">Package: Career Pack</span>
+                    </div>
+                </article>
             </div>
         </div>
     </section>
 
-    <footer class="bg-slate-900 text-slate-400 py-12 border-t border-slate-800">
-        <div class="max-w-7xl mx-auto px-6 text-center md:text-left md:flex justify-between items-end">
-            <div>
-                <div class="flex items-center gap-2 justify-center md:justify-start mb-4">
-                    <div class="w-8 h-8 bg-brand-600 rounded flex items-center justify-center text-white">
-                        <i class="fa-solid fa-layer-group text-sm"></i>
-                    </div>
-                    <span class="font-bold text-lg text-white">CareerAlign</span>
-                </div>
-                <p class="text-sm">Empowering Malaysian careers with data.</p>
+    <!-- =============== FAQ =============== -->
+    <section id="faq" class="bg-slate-950/95 border-t border-slate-900 py-20">
+        <div class="max-w-4xl mx-auto px-4 sm:px-6">
+            <div class="text-center mb-8">
+                <p class="text-xs font-semibold uppercase tracking-[0.25em] text-sky-300 mb-2">
+                    Frequently asked questions
+                </p>
+                <h2 class="text-2xl sm:text-3xl font-semibold text-slate-50 mb-3">
+                    Still unsure? These answers may help.
+                </h2>
+                <p class="text-sm sm:text-base text-slate-300 max-w-2xl mx-auto">
+                    If your question is not covered here, you can always reach out via WhatsApp at the bottom of this page.
+                </p>
             </div>
-            <div class="mt-8 md:mt-0 flex gap-6 justify-center text-sm">
-                <a href="privacy.html" class="hover:text-white transition">Privacy Policy</a>
-                <a href="terms.html" class="hover:text-white transition">Terms of Service</a>
-                <a href="https://wa.me/60123456789" class="hover:text-white transition">Contact Support</a>
+
+            <div class="space-y-3">
+                <!-- Q1 -->
+                <div class="faq-item rounded-xl border border-slate-800 bg-slate-900/80">
+                    <button type="button"
+                            class="faq-toggle w-full flex items-center justify-between px-4 py-3 text-left">
+                        <span class="text-sm font-medium text-slate-100">
+                            Is this the same as just using free ChatGPT by myself?
+                        </span>
+                        <span class="faq-icon text-slate-400 text-xs">+</span>
+                    </button>
+                    <div class="faq-content px-4 pb-4">
+                        <p class="text-xs text-slate-300">
+                            Not exactly. Free ChatGPT gives general answers unless you already know how to prompt it properly.
+                            CareerAlign uses a structured framework, tested system prompts, and a scoring approach designed for job seekers.
+                            You get consistent outputs (score, gaps, actions), not random advice.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Q2 -->
+                <div class="faq-item rounded-xl border border-slate-800 bg-slate-900/80">
+                    <button type="button"
+                            class="faq-toggle w-full flex items-center justify-between px-4 py-3 text-left">
+                        <span class="text-sm font-medium text-slate-100">
+                            Do you guarantee that I will get a job or interview?
+                        </span>
+                        <span class="faq-icon text-slate-400 text-xs">+</span>
+                    </button>
+                    <div class="faq-content px-4 pb-4">
+                        <p class="text-xs text-slate-300">
+                            No one can honestly guarantee a job or interview because hiring decisions are made by employers.
+                            What we can do is give you a stronger, better-aligned resume and cover letter so you have a fairer chance of being shortlisted.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Q3 -->
+                <div class="faq-item rounded-xl border border-slate-800 bg-slate-900/80">
+                    <button type="button"
+                            class="faq-toggle w-full flex items-center justify-between px-4 py-3 text-left">
+                        <span class="text-sm font-medium text-slate-100">
+                            What happens after I use up my 5 analyses or rewrites?
+                        </span>
+                        <span class="faq-icon text-slate-400 text-xs">+</span>
+                    </button>
+                    <div class="faq-content px-4 pb-4">
+                        <p class="text-xs text-slate-300">
+                            Each package comes with a fixed number of AI requests. Once you use them,
+                            you can either upgrade to a higher package or purchase another package later if you need more.
+                            We don’t auto-charge or lock you into subscriptions without your consent.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Q4 -->
+                <div class="faq-item rounded-xl border border-slate-800 bg-slate-900/80">
+                    <button type="button"
+                            class="faq-toggle w-full flex items-center justify-between px-4 py-3 text-left">
+                        <span class="text-sm font-medium text-slate-100">
+                            Is my resume stored permanently? Who can see my information?
+                        </span>
+                        <span class="faq-icon text-slate-400 text-xs">+</span>
+                    </button>
+                    <div class="faq-content px-4 pb-4">
+                        <p class="text-xs text-slate-300">
+                            Your documents are used only to generate your reports and suggestions.
+                            We do not send your resume to employers, recruiters, or job boards.
+                            We also don’t resell your data. You can request removal of your records if needed.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Q5 -->
+                <div class="faq-item rounded-xl border border-slate-800 bg-slate-900/80">
+                    <button type="button"
+                            class="faq-toggle w-full flex items-center justify-between px-4 py-3 text-left">
+                        <span class="text-sm font-medium text-slate-100">
+                            Can I reuse the same improved CV for other roles later?
+                        </span>
+                        <span class="faq-icon text-slate-400 text-xs">+</span>
+                    </button>
+                    <div class="faq-content px-4 pb-4">
+                        <p class="text-xs text-slate-300">
+                            Yes. One of the goals of CareerAlign is to help you build a better “base” resume.
+                            Once your CV has been improved and aligned to a certain type of role, you can reuse it for similar jobs
+                            and only tweak for each new job description.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Q6 -->
+                <div class="faq-item rounded-xl border border-slate-800 bg-slate-900/80">
+                    <button type="button"
+                            class="faq-toggle w-full flex items-center justify-between px-4 py-3 text-left">
+                        <span class="text-sm font-medium text-slate-100">
+                            I’m not comfortable paying online. Can I use manual bank transfer instead?
+                        </span>
+                        <span class="faq-icon text-slate-400 text-xs">+</span>
+                    </button>
+                    <div class="faq-content px-4 pb-4">
+                        <p class="text-xs text-slate-300">
+                            Yes. The fastest way is always through the online checkout buttons in the pricing section.
+                            However, if you prefer manual transfer or need an invoice first, you can fill in the WhatsApp form at the bottom of this page
+                            and choose manual payment. We will guide you step-by-step.
+                        </p>
+                    </div>
+                </div>
             </div>
         </div>
-    </footer>
+    </section>
 
-    <script src="js/main.js"></script>
+    <!-- =============== WHATSAPP / MANUAL PAYMENT =============== -->
+    <section id="start" class="bg-slate-950 border-t border-slate-900 py-20">
+        <div class="max-w-5xl mx-auto px-4 sm:px-6">
+            <div class="grid gap-8 md:grid-cols-2 items-start">
+                <div>
+                    <p class="text-xs font-semibold uppercase tracking-[0.25em] text-emerald-300 mb-2">
+                        Prefer WhatsApp or need help?
+                    </p>
+                    <h2 class="text-xl sm:text-2xl font-semibold text-slate-50 mb-3">
+                        Not sure which package fits you, or prefer manual bank transfer?
+                    </h2>
+                    <p class="text-sm text-slate-300 mb-4">
+                        The fastest way to access your JobMatch tools is to use the package buttons in the pricing section.
+                        However, we understand some people prefer to ask questions first or use manual bank transfer.
+                    </p>
+
+                    <div class="space-y-2 text-xs text-slate-300 mb-4">
+                        <p class="font-semibold text-slate-100">Use this WhatsApp form if you want to:</p>
+                        <ul class="list-disc list-inside space-y-1">
+                            <li>Ask which package is more suitable for your situation.</li>
+                            <li>Request manual payment options (e.g. bank transfer) instead of online checkout.</li>
+                            <li>Explain a special case (career break, sensitive situation, etc.) before you buy.</li>
+                        </ul>
+                    </div>
+
+                    <div
+                        class="rounded-xl border border-slate-800 bg-slate-900/80 px-4 py-3 text-[11px] text-slate-300 mb-4">
+                        <p class="font-semibold text-slate-100 mb-1">What happens after you submit:</p>
+                        <ol class="list-decimal list-inside space-y-1">
+                            <li>Your details will be organised into a WhatsApp message (you can still edit before sending).</li>
+                            <li>You contact us directly on WhatsApp and we respond personally.</li>
+                            <li>If you choose manual payment, we will share the steps and confirm once received.</li>
+                        </ol>
+                    </div>
+
+                    <p class="text-[11px] text-slate-500">
+                        The information you enter here is kept in your browser (local storage) to make it easier to reuse later.
+                        It is not automatically sent anywhere until you open WhatsApp and press send.
+                    </p>
+                </div>
+
+                <div class="rounded-2xl border border-slate-800 bg-slate-900/80 p-4">
+                    <h3 class="text-sm font-semibold text-slate-50 mb-2">
+                        Send your details via WhatsApp
+                    </h3>
+                    <p class="text-[11px] text-slate-400 mb-4">
+                        Fill in as much as you can. We will use this to understand your situation and guide you to the right
+                        package or manual payment option.
+                    </p>
+
+                    <div id="waFormError" class="hidden mb-3 text-[11px] text-rose-300"></div>
+
+                    <form id="waLeadForm" class="space-y-3">
+                        <div>
+                            <label for="leadName" class="block text-[11px] font-medium text-slate-200 mb-1">
+                                Your name
+                            </label>
+                            <input id="leadName" type="text"
+                                   class="w-full rounded-lg border border-slate-700 bg-slate-950/80 px-3 py-2 text-xs text-slate-100"
+                                   placeholder="e.g. Aisyah / Daniel">
+                        </div>
+
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                            <div>
+                                <label for="leadEmail" class="block text-[11px] font-medium text-slate-200 mb-1">
+                                    Email (optional)
+                                </label>
+                                <input id="leadEmail" type="email"
+                                       class="w-full rounded-lg border border-slate-700 bg-slate-950/80 px-3 py-2 text-xs text-slate-100"
+                                       placeholder="For sending follow-up or invoice">
+                            </div>
+                            <div>
+                                <label for="leadWhatsapp" class="block text-[11px] font-medium text-slate-200 mb-1">
+                                    WhatsApp number<span class="text-rose-400">*</span>
+                                </label>
+                                <input id="leadWhatsapp" type="text"
+                                       class="w-full rounded-lg border border-slate-700 bg-slate-950/80 px-3 py-2 text-xs text-slate-100"
+                                       placeholder="e.g. 6012XXXXXXX">
+                            </div>
+                        </div>
+
+                        <div>
+                            <label for="leadSituation" class="block text-[11px] font-medium text-slate-200 mb-1">
+                                Your current situation
+                            </label>
+                            <textarea id="leadSituation" rows="2"
+                                      class="w-full rounded-lg border border-slate-700 bg-slate-950/80 px-3 py-2 text-xs text-slate-100"
+                                      placeholder="e.g. Fresh grad, unemployed, working but want to switch, on career break, etc."></textarea>
+                        </div>
+
+                        <div>
+                            <label for="leadTargetRole" class="block text-[11px] font-medium text-slate-200 mb-1">
+                                Target role / industry<span class="text-rose-400">*</span>
+                            </label>
+                            <input id="leadTargetRole" type="text"
+                                   class="w-full rounded-lg border border-slate-700 bg-slate-950/80 px-3 py-2 text-xs text-slate-100"
+                                   placeholder="e.g. Data Analyst in fintech, Marketing Exec in FMCG, etc.">
+                        </div>
+
+                        <div>
+                            <label for="leadPackage" class="block text-[11px] font-medium text-slate-200 mb-1">
+                                Package you are interested in<span class="text-rose-400">*</span>
+                            </label>
+                            <select id="leadPackage"
+                                    class="w-full rounded-lg border border-slate-700 bg-slate-950/80 px-3 py-2 text-xs text-slate-100">
+                                <option value="">Select a package</option>
+                                <option value="JobMatch Report">JobMatch Report</option>
+                                <option value="ATS Rewrite Pack">ATS Rewrite Pack</option>
+                                <option value="Career Pack">Career Pack</option>
+                                <option value="Not sure, please advise">Not sure, please advise</option>
+                            </select>
+                        </div>
+
+                        <div>
+                            <label for="leadPaymentRef" class="block text-[11px] font-medium text-slate-200 mb-1">
+                                Payment status / preference<span class="text-rose-400">*</span>
+                            </label>
+                            <input id="leadPaymentRef" type="text"
+                                   class="w-full rounded-lg border border-slate-700 bg-slate-950/80 px-3 py-2 text-xs text-slate-100"
+                                   placeholder="e.g. Not paid yet, want bank transfer / Already transferred, ref: XXXXX">
+                        </div>
+
+                        <div>
+                            <label for="leadJobInfo" class="block text-[11px] font-medium text-slate-200 mb-1">
+                                Job posting / key responsibilities<span class="text-rose-400">*</span>
+                            </label>
+                            <textarea id="leadJobInfo" rows="3"
+                                      class="w-full rounded-lg border border-slate-700 bg-slate-950/80 px-3 py-2 text-xs text-slate-100"
+                                      placeholder="Paste the job ad link or copy the main responsibilities here."></textarea>
+                        </div>
+
+                        <div>
+                            <label for="leadNotes" class="block text-[11px] font-medium text-slate-200 mb-1">
+                                Anything else we should know? (optional)
+                            </label>
+                            <textarea id="leadNotes" rows="2"
+                                      class="w-full rounded-lg border border-slate-700 bg-slate-950/80 px-3 py-2 text-xs text-slate-100"
+                                      placeholder="E.g. deadlines, interview dates, concerns, or special requests."></textarea>
+                        </div>
+
+                        <div class="flex flex-wrap items-center gap-2 pt-2">
+                            <button id="generateWaBtn" type="button" class="btn-primary flex-1 justify-center">
+                                Open WhatsApp &amp; send my details
+                            </button>
+                            <button id="clearWaDataBtn" type="button" class="btn-ghost">
+                                Clear form
+                            </button>
+                        </div>
+
+                        <p class="mt-2 text-[10px] text-slate-500">
+                            You’ll still be able to review and edit the message inside WhatsApp before you press send.
+                        </p>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+</main>
+
+<footer class="border-t border-slate-900 bg-slate-950/95 py-6">
+    <div class="max-w-5xl mx-auto px-4 sm:px-6 flex flex-col sm:flex-row items-center justify-between gap-3">
+        <p class="text-[11px] text-slate-500">
+            &copy; <span id="yearSpan"></span> CareerAlign. All rights reserved.
+        </p>
+        <div class="flex items-center gap-3 text-[11px] text-slate-400">
+            <a href="terms.html" class="hover:text-sky-300">Terms</a>
+            <span class="text-slate-700">•</span>
+            <a href="privacy.html" class="hover:text-sky-300">Privacy</a>
+        </div>
+    </div>
+</footer>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const navbar = document.getElementById('navbar');
+        const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+        const mobileMenu = document.getElementById('mobile-menu');
+        const yearSpan = document.getElementById('yearSpan');
+        if (yearSpan) {
+            yearSpan.textContent = new Date().getFullYear();
+        }
+
+        function handleScroll() {
+            if (window.scrollY > 50) {
+                navbar.classList.add('nav-scrolled');
+            } else {
+                navbar.classList.remove('nav-scrolled');
+            }
+        }
+
+        handleScroll();
+        window.addEventListener('scroll', handleScroll);
+
+        if (mobileMenuBtn && mobileMenu) {
+            mobileMenuBtn.addEventListener('click', function () {
+                mobileMenu.classList.toggle('hidden');
+            });
+        }
+
+        // Smooth scroll
+        document.querySelectorAll('a[href^="#"]').forEach(function (link) {
+            link.addEventListener('click', function (e) {
+                const targetId = this.getAttribute('href').slice(1);
+                const target = document.getElementById(targetId);
+                if (target) {
+                    e.preventDefault();
+                    const offset = 70;
+                    const top = target.getBoundingClientRect().top + window.scrollY - offset;
+                    window.scrollTo({top, behavior: 'smooth'});
+                    if (mobileMenu && !mobileMenu.classList.contains('hidden')) {
+                        mobileMenu.classList.add('hidden');
+                    }
+                }
+            });
+        });
+
+        // Simulator
+        const matchOptions = document.querySelectorAll('.match-option');
+        const simStrong = document.getElementById('sim-strong');
+        const simPartial = document.getElementById('sim-partial');
+        const simGaps = document.getElementById('sim-gaps');
+        const simScore = document.getElementById('sim-score');
+        const simBar = document.getElementById('sim-bar');
+        const simMessage = document.getElementById('sim-message');
+
+        function calculateMatch() {
+            const rows = document.querySelectorAll('.requirement-row');
+            let yesCount = 0, partialCount = 0, gapCount = 0;
+
+            rows.forEach(row => {
+                const active = row.querySelector('.match-option.active');
+                if (!active) return;
+                const level = active.getAttribute('data-level');
+                if (level === 'yes') yesCount++;
+                else if (level === 'partial') partialCount++;
+                else if (level === 'gap') gapCount++;
+            });
+
+            const total = rows.length;
+            const yesScore = yesCount * 20;
+            const partialScore = partialCount * 10;
+            const maxScore = total * 20;
+            const score = maxScore > 0 ? Math.round(((yesScore + partialScore) / maxScore) * 100) : 0;
+
+            simStrong.textContent = yesCount.toString();
+            simPartial.textContent = partialCount.toString();
+            simGaps.textContent = gapCount.toString();
+            simScore.textContent = score.toString();
+            simBar.style.width = score + '%';
+
+            if (score === 0) {
+                simMessage.textContent = 'Start by selecting how well you meet each requirement.';
+                simMessage.className = 'text-[11px] text-slate-300 mt-1';
+            } else if (score < 40) {
+                simMessage.textContent = 'At this level, your CV is very likely to be rejected or ignored. You may need to change the role you target or seriously reframe your experience.';
+                simMessage.className = 'text-[11px] text-rose-300 mt-1';
+            } else if (score < 70) {
+                simMessage.textContent = 'You are partially aligned. You may still get callbacks if your competition is weak, but there are gaps that should be fixed before applying.';
+                simMessage.className = 'text-[11px] text-amber-200 mt-1';
+            } else {
+                simMessage.textContent = 'You are in a good range. With a cleaner ATS-friendly resume and a strong cover letter, you have a realistic chance of being shortlisted.';
+                simMessage.className = 'text-[11px] text-emerald-300 mt-1';
+            }
+        }
+
+        matchOptions.forEach(btn => {
+            btn.addEventListener('click', function () {
+                const row = this.closest('.requirement-row');
+                row.querySelectorAll('.match-option').forEach(b => b.classList.remove('active'));
+                this.classList.add('active');
+                calculateMatch();
+            });
+        });
+
+        // FAQ accordion
+        document.querySelectorAll('.faq-item').forEach(item => {
+            const toggle = item.querySelector('.faq-toggle');
+            toggle.addEventListener('click', () => {
+                item.classList.toggle('open');
+            });
+        });
+
+        // WhatsApp form
+        const waNumber = '60123456789'; // TUKAR KE NOMBOR WHATSAPP SEBENAR
+        const waForm = document.getElementById('waLeadForm');
+        const waError = document.getElementById('waFormError');
+        const waGenerateBtn = document.getElementById('generateWaBtn');
+        const waClearBtn = document.getElementById('clearWaDataBtn');
+        const STORAGE_KEY = 'careerAlignLead';
+
+        function getFieldValue(id) {
+            const el = document.getElementById(id);
+            return el ? el.value.trim() : '';
+        }
+
+        function setFieldValue(id, value) {
+            const el = document.getElementById(id);
+            if (el) el.value = value || '';
+        }
+
+        function showError(msg) {
+            if (!waError) return;
+            waError.textContent = msg;
+            waError.classList.remove('hidden');
+        }
+
+        function clearError() {
+            if (!waError) return;
+            waError.textContent = '';
+            waError.classList.add('hidden');
+        }
+
+        // load saved data
+        try {
+            const saved = localStorage.getItem(STORAGE_KEY);
+            if (saved) {
+                const data = JSON.parse(saved);
+                Object.keys(data).forEach(key => setFieldValue(key, data[key]));
+            }
+        } catch (e) {
+            console.warn('Unable to load saved data', e);
+        }
+
+        if (waGenerateBtn) {
+            waGenerateBtn.addEventListener('click', function () {
+                clearError();
+
+                const leadName = getFieldValue('leadName');
+                const leadEmail = getFieldValue('leadEmail');
+                const leadWhatsapp = getFieldValue('leadWhatsapp');
+                const leadSituation = getFieldValue('leadSituation');
+                const leadTargetRole = getFieldValue('leadTargetRole');
+                const leadPackage = getFieldValue('leadPackage');
+                const leadPaymentRef = getFieldValue('leadPaymentRef');
+                const leadJobInfo = getFieldValue('leadJobInfo');
+                const leadNotes = getFieldValue('leadNotes');
+
+                if (!leadWhatsapp || !leadTargetRole || !leadPackage || !leadPaymentRef || !leadJobInfo) {
+                    showError('Please fill in your WhatsApp number, target role, package, payment status/preference and job info before continuing.');
+                    return;
+                }
+
+                const payload = {
+                    leadName,
+                    leadEmail,
+                    leadWhatsapp,
+                    leadSituation,
+                    leadTargetRole,
+                    leadPackage,
+                    leadPaymentRef,
+                    leadJobInfo,
+                    leadNotes
+                };
+
+                try {
+                    localStorage.setItem(STORAGE_KEY, JSON.stringify(payload));
+                } catch (e) {
+                    console.warn('Unable to save data', e);
+                }
+
+                let message = 'CareerAlign – New JobMatch/CareerAlign request%0A%0A';
+                message += '*Name:* ' + (leadName || '-') + '%0A';
+                message += '*Email:* ' + (leadEmail || '-') + '%0A';
+                message += '*WhatsApp:* ' + leadWhatsapp + '%0A';
+                message += '*Current situation:* ' + (leadSituation || '-') + '%0A%0A';
+                message += '*Target role / industry:* ' + leadTargetRole + '%0A';
+                message += '*Package interested in:* ' + leadPackage + '%0A';
+                message += '*Payment status / preference:* ' + leadPaymentRef + '%0A%0A';
+                message += '*Job posting / responsibilities:*%0A' + leadJobInfo + '%0A%0A';
+                message += '*Additional notes:*%0A' + (leadNotes || '-') + '%0A';
+
+                const url = 'https://wa.me/' + waNumber + '?text=' + message;
+                window.open(url, '_blank');
+            });
+        }
+
+        if (waClearBtn) {
+            waClearBtn.addEventListener('click', function () {
+                [
+                    'leadName', 'leadEmail', 'leadWhatsapp', 'leadSituation',
+                    'leadTargetRole', 'leadPackage', 'leadPaymentRef', 'leadJobInfo', 'leadNotes'
+                ].forEach(id => setFieldValue(id, ''));
+                clearError();
+                try {
+                    localStorage.removeItem(STORAGE_KEY);
+                } catch (e) {
+                    console.warn('Unable to clear data', e);
+                }
+            });
+        }
+    });
+</script>
+
 </body>
 </html>
