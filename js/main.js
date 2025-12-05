@@ -2,25 +2,29 @@ document.addEventListener('DOMContentLoaded', () => {
     
     // --- FEATURE 1: Navbar Scroll Effect ---
     const navbar = document.getElementById('navbar');
-    
-    window.addEventListener('scroll', () => {
-        if (window.scrollY > 50) {
-            navbar.classList.add('nav-scrolled');
-            navbar.classList.remove('py-4');
-        } else {
-            navbar.classList.remove('nav-scrolled');
-            navbar.classList.add('py-4');
-        }
-    });
+    if (navbar) {
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 50) {
+                navbar.classList.add('nav-scrolled');
+                navbar.classList.remove('py-4');
+            } else {
+                navbar.classList.remove('nav-scrolled');
+                navbar.classList.add('py-4');
+            }
+        });
+    }
 
     // --- FEATURE 2: Mobile Menu Toggle ---
     const menuBtn = document.getElementById('mobile-menu-btn');
     const mobileMenu = document.getElementById('mobile-menu');
 
-    menuBtn.addEventListener('click', () => {
-        mobileMenu.classList.toggle('hidden');
-        mobileMenu.classList.toggle('flex');
-    });
+    if (menuBtn && mobileMenu) {
+        menuBtn.addEventListener('click', () => {
+            const isHidden = mobileMenu.classList.toggle('hidden');
+            mobileMenu.classList.toggle('flex', !isHidden);
+            menuBtn.setAttribute('aria-expanded', String(!isHidden));
+        });
+    }
 
     // --- FEATURE 3: Requirement match simulator ---
     const matchOptions = document.querySelectorAll('.match-option');
@@ -131,7 +135,9 @@ document.addEventListener('DOMContentLoaded', () => {
     const waForm = document.getElementById('waLeadForm');
     const waBtn = document.getElementById('generateWaBtn');
     const waError = document.getElementById('waFormError');
-    // Replace with your WhatsApp number in international format without plus sign
+    const waClearBtn = document.getElementById('clearWaDataBtn');
+
+    // TODO: Replace with your real WhatsApp number in international format without plus sign (e.g. 6019XXXXXXX)
     const waNumber = '60123456789';
 
     if (waForm && waBtn) {
@@ -148,7 +154,20 @@ document.addEventListener('DOMContentLoaded', () => {
                 });
             }
         } catch (err) {
-            console.warn('Could not restore lead data', err);
+            console.warn('Unable to restore lead data', err);
+        }
+
+        // Clear saved details
+        if (waClearBtn) {
+            waClearBtn.addEventListener('click', () => {
+                try {
+                    localStorage.removeItem('careerAlignLead');
+                } catch (err) {
+                    console.warn('Unable to clear lead data', err);
+                }
+                waForm.reset();
+                if (waError) waError.classList.add('hidden');
+            });
         }
 
         waBtn.addEventListener('click', () => {
@@ -156,6 +175,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 const el = document.getElementById(id);
                 return el ? el.value.trim() : '';
             };
+
             const leadName = getVal('leadName');
             const leadWhatsapp = getVal('leadWhatsapp');
             const leadTargetRole = getVal('leadTargetRole');
@@ -167,9 +187,10 @@ document.addEventListener('DOMContentLoaded', () => {
             if (!leadName || !leadWhatsapp || !leadTargetRole || !leadPackage || !leadPaymentRef || !leadJobInfo) {
                 if (waError) waError.classList.remove('hidden');
                 return;
-            } else {
-                if (waError) waError.classList.add('hidden');
+            } else if (waError) {
+                waError.classList.add('hidden');
             }
+
             const leadEmail = getVal('leadEmail');
             const leadSituation = getVal('leadSituation');
             const leadNotes = getVal('leadNotes');
@@ -186,6 +207,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 leadJobInfo,
                 leadNotes
             };
+
             try {
                 localStorage.setItem('careerAlignLead', JSON.stringify(payload));
             } catch (err) {
@@ -194,15 +216,16 @@ document.addEventListener('DOMContentLoaded', () => {
 
             // Build the WhatsApp message
             const lines = [
-                'Hi, I would like to use your CareerAlign service.',
+                'CareerAlign – New JobMatch request',
                 '',
                 `Name: ${leadName}`,
                 leadEmail ? `Email: ${leadEmail}` : '',
                 `WhatsApp: ${leadWhatsapp}`,
                 leadSituation ? `Current situation: ${leadSituation}` : '',
-                `Target role & industry: ${leadTargetRole}`,
+                '',
+                `Target role / industry: ${leadTargetRole}`,
                 `Package paid: ${leadPackage}`,
-                `SenangPay payment reference / proof: ${leadPaymentRef}`,
+                `Payment reference / proof: ${leadPaymentRef}`,
                 '',
                 'Job posting / key responsibilities:',
                 leadJobInfo,
@@ -216,12 +239,20 @@ document.addEventListener('DOMContentLoaded', () => {
             window.open(url, '_blank');
         });
     }
+
+
+    // --- Smooth scroll for in-page navigation links ---
+    const anchorLinks = document.querySelectorAll('a[href^="#"]');
+    anchorLinks.forEach(link => {
+        link.addEventListener('click', (event) => {
+            const href = link.getAttribute('href');
+            if (!href || href === '#' || href.length === 1) return;
+            const target = document.querySelector(href);
+            if (!target) return;
+            // Let browser handle if user middle-clicks etc.
+            if (event.button !== 0 || event.metaKey || event.ctrlKey) return;
+            event.preventDefault();
+            target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        });
+    });
 });
-
-
-// PWA service worker registration (shared for landing & dashboard)
-if ('serviceWorker' in navigator) {
-  navigator.serviceWorker.register('./sw.js').catch(() => {
-    // ignore registration failure
-  });
-}
