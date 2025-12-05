@@ -14,7 +14,7 @@
     <link rel="stylesheet"
           href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"/>
 
-    <!-- Optional external CSS (boleh buang kalau tak guna) -->
+    <!-- Optional external CSS -->
     <link rel="stylesheet" href="./css/style.css">
 
     <style>
@@ -794,7 +794,7 @@
                 <p class="text-xs font-semibold uppercase tracking-[0.25em] text-amber-300 mb-2">
                     Real job seekers, real situations
                 </p>
-                <h2 class="text-2xl sm:text-3xl font-semibold text-slate-50 mb-3">
+            <h2 class="text-2xl sm:text-3xl font-semibold text-slate-50 mb-3">
                     Built for people who don’t know how to “sell” themselves on paper.
                 </h2>
                 <p class="text-sm sm:text-base text-slate-300 max-w-2xl mx-auto">
@@ -1106,11 +1106,11 @@
                     </h2>
                     <p class="text-sm text-slate-300 mb-4">
                         The fastest way to access your JobMatch tools is to use the package buttons in the pricing section.
-                        However, we understand some people prefer to ask questions first or use manual bank transfer.
+                        However, some people prefer to ask questions first or discuss manual bank transfer.
                     </p>
 
                     <div class="space-y-2 text-xs text-slate-300 mb-4">
-                        <p class="font-semibold text-slate-100">Use this WhatsApp form if you want to:</p>
+                        <p class="font-semibold text-slate-100">Use this WhatsApp option if you want to:</p>
                         <ul class="list-disc list-inside space-y-1">
                             <li>Ask which package is more suitable for your situation.</li>
                             <li>Request manual payment options (e.g. bank transfer) instead of online checkout.</li>
@@ -1118,134 +1118,87 @@
                         </ul>
                     </div>
 
-                    <div
-                        class="rounded-xl border border-slate-800 bg-slate-900/80 px-4 py-3 text-[11px] text-slate-300 mb-4">
-                        <p class="font-semibold text-slate-100 mb-1">What happens after you submit:</p>
-                        <ol class="list-decimal list-inside space-y-1">
-                            <li>Your details will be organised into a WhatsApp message (you can still edit before sending).</li>
-                            <li>You contact us directly on WhatsApp and we respond personally.</li>
-                            <li>If you choose manual payment, we will share the steps and confirm once received.</li>
-                        </ol>
-                    </div>
-
                     <p class="text-[11px] text-slate-500">
-                        The information you enter here is kept in your browser (local storage) to make it easier to reuse later.
-                        It is not automatically sent anywhere until you open WhatsApp and press send.
+                        Your details stay in your browser (local storage) so it’s easier to reuse later.
+                        Nothing is sent automatically until you open WhatsApp and press send.
                     </p>
                 </div>
 
+                <!-- WhatsApp Card (collapsed by default) -->
                 <div class="rounded-2xl border border-slate-800 bg-slate-900/80 p-4">
                     <h3 class="text-sm font-semibold text-slate-50 mb-2">
-                        Send your details via WhatsApp
+                        Need help? Send me a WhatsApp
                     </h3>
                     <p class="text-[11px] text-slate-400 mb-4">
-                        Fill in as much as you can. We will use this to understand your situation and guide you to the right
-                        package or manual payment option.
+                        Click the button below to open a short form. We’ll turn your answers into a ready-made WhatsApp message
+                        that you can still edit before sending.
                     </p>
 
-                    <div id="waFormError" class="hidden mb-3 text-[11px] text-rose-300"></div>
+                    <button id="toggleWaFormBtn" type="button"
+                            class="btn-primary w-full justify-center mb-2">
+                        <span class="mr-1"><i class="fa-brands fa-whatsapp text-sm"></i></span>
+                        Need help? Send me a WhatsApp
+                    </button>
 
-                    <form id="waLeadForm" class="space-y-3">
-                        <div>
-                            <label for="leadName" class="block text-[11px] font-medium text-slate-200 mb-1">
-                                Your name
-                            </label>
-                            <input id="leadName" type="text"
-                                   class="w-full rounded-lg border border-slate-700 bg-slate-950/80 px-3 py-2 text-xs text-slate-100"
-                                   placeholder="e.g. Aisyah / Daniel">
-                        </div>
+                    <div id="waFormContainer" class="mt-4 hidden">
+                        <div id="waFormError" class="hidden mb-3 text-[11px] text-rose-300"></div>
 
-                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                        <form id="waLeadForm" class="space-y-3">
                             <div>
-                                <label for="leadEmail" class="block text-[11px] font-medium text-slate-200 mb-1">
-                                    Email (optional)
+                                <label for="waName" class="block text-[11px] font-medium text-slate-200 mb-1">
+                                    Your name (optional)
                                 </label>
-                                <input id="leadEmail" type="email"
+                                <input id="waName" type="text"
                                        class="w-full rounded-lg border border-slate-700 bg-slate-950/80 px-3 py-2 text-xs text-slate-100"
-                                       placeholder="For sending follow-up or invoice">
+                                       placeholder="e.g. Aisyah / Daniel">
                             </div>
+
                             <div>
-                                <label for="leadWhatsapp" class="block text-[11px] font-medium text-slate-200 mb-1">
+                                <label for="waWhatsapp" class="block text-[11px] font-medium text-slate-200 mb-1">
                                     WhatsApp number<span class="text-rose-400">*</span>
                                 </label>
-                                <input id="leadWhatsapp" type="text"
+                                <input id="waWhatsapp" type="text"
                                        class="w-full rounded-lg border border-slate-700 bg-slate-950/80 px-3 py-2 text-xs text-slate-100"
                                        placeholder="e.g. 6012XXXXXXX">
                             </div>
-                        </div>
 
-                        <div>
-                            <label for="leadSituation" class="block text-[11px] font-medium text-slate-200 mb-1">
-                                Your current situation
-                            </label>
-                            <textarea id="leadSituation" rows="2"
-                                      class="w-full rounded-lg border border-slate-700 bg-slate-950/80 px-3 py-2 text-xs text-slate-100"
-                                      placeholder="e.g. Fresh grad, unemployed, working but want to switch, on career break, etc."></textarea>
-                        </div>
+                            <div>
+                                <label for="waPackage" class="block text-[11px] font-medium text-slate-200 mb-1">
+                                    Package you are interested in
+                                </label>
+                                <select id="waPackage"
+                                        class="w-full rounded-lg border border-slate-700 bg-slate-950/80 px-3 py-2 text-xs text-slate-100">
+                                    <option value="">Select a package</option>
+                                    <option value="JobMatch Report">JobMatch Report</option>
+                                    <option value="ATS Rewrite Pack">ATS Rewrite Pack</option>
+                                    <option value="Career Pack">Career Pack</option>
+                                    <option value="Not sure, please advise">Not sure, please advise</option>
+                                </select>
+                            </div>
 
-                        <div>
-                            <label for="leadTargetRole" class="block text-[11px] font-medium text-slate-200 mb-1">
-                                Target role / industry<span class="text-rose-400">*</span>
-                            </label>
-                            <input id="leadTargetRole" type="text"
-                                   class="w-full rounded-lg border border-slate-700 bg-slate-950/80 px-3 py-2 text-xs text-slate-100"
-                                   placeholder="e.g. Data Analyst in fintech, Marketing Exec in FMCG, etc.">
-                        </div>
+                            <div>
+                                <label for="waMessage" class="block text-[11px] font-medium text-slate-200 mb-1">
+                                    Your question / situation<span class="text-rose-400">*</span>
+                                </label>
+                                <textarea id="waMessage" rows="3"
+                                          class="w-full rounded-lg border border-slate-700 bg-slate-950/80 px-3 py-2 text-xs text-slate-100"
+                                          placeholder="E.g. Fresh grad applying for data analyst role, want to know which package is suitable and if I can pay via bank transfer."></textarea>
+                            </div>
 
-                        <div>
-                            <label for="leadPackage" class="block text-[11px] font-medium text-slate-200 mb-1">
-                                Package you are interested in<span class="text-rose-400">*</span>
-                            </label>
-                            <select id="leadPackage"
-                                    class="w-full rounded-lg border border-slate-700 bg-slate-950/80 px-3 py-2 text-xs text-slate-100">
-                                <option value="">Select a package</option>
-                                <option value="JobMatch Report">JobMatch Report</option>
-                                <option value="ATS Rewrite Pack">ATS Rewrite Pack</option>
-                                <option value="Career Pack">Career Pack</option>
-                                <option value="Not sure, please advise">Not sure, please advise</option>
-                            </select>
-                        </div>
+                            <div class="flex flex-wrap items-center gap-2 pt-2">
+                                <button id="generateWaBtn" type="button" class="btn-primary flex-1 justify-center">
+                                    Open WhatsApp &amp; send my details
+                                </button>
+                                <button id="clearWaDataBtn" type="button" class="btn-ghost">
+                                    Clear form
+                                </button>
+                            </div>
 
-                        <div>
-                            <label for="leadPaymentRef" class="block text-[11px] font-medium text-slate-200 mb-1">
-                                Payment status / preference<span class="text-rose-400">*</span>
-                            </label>
-                            <input id="leadPaymentRef" type="text"
-                                   class="w-full rounded-lg border border-slate-700 bg-slate-950/80 px-3 py-2 text-xs text-slate-100"
-                                   placeholder="e.g. Not paid yet, want bank transfer / Already transferred, ref: XXXXX">
-                        </div>
-
-                        <div>
-                            <label for="leadJobInfo" class="block text-[11px] font-medium text-slate-200 mb-1">
-                                Job posting / key responsibilities<span class="text-rose-400">*</span>
-                            </label>
-                            <textarea id="leadJobInfo" rows="3"
-                                      class="w-full rounded-lg border border-slate-700 bg-slate-950/80 px-3 py-2 text-xs text-slate-100"
-                                      placeholder="Paste the job ad link or copy the main responsibilities here."></textarea>
-                        </div>
-
-                        <div>
-                            <label for="leadNotes" class="block text-[11px] font-medium text-slate-200 mb-1">
-                                Anything else we should know? (optional)
-                            </label>
-                            <textarea id="leadNotes" rows="2"
-                                      class="w-full rounded-lg border border-slate-700 bg-slate-950/80 px-3 py-2 text-xs text-slate-100"
-                                      placeholder="E.g. deadlines, interview dates, concerns, or special requests."></textarea>
-                        </div>
-
-                        <div class="flex flex-wrap items-center gap-2 pt-2">
-                            <button id="generateWaBtn" type="button" class="btn-primary flex-1 justify-center">
-                                Open WhatsApp &amp; send my details
-                            </button>
-                            <button id="clearWaDataBtn" type="button" class="btn-ghost">
-                                Clear form
-                            </button>
-                        </div>
-
-                        <p class="mt-2 text-[10px] text-slate-500">
-                            You’ll still be able to review and edit the message inside WhatsApp before you press send.
-                        </p>
-                    </form>
+                            <p class="mt-2 text-[10px] text-slate-500">
+                                We’ll prepare the message for you. You can still review and edit it in WhatsApp before sending.
+                            </p>
+                        </form>
+                    </div>
                 </div>
             </div>
         </div>
@@ -1272,6 +1225,9 @@
         const mobileMenuBtn = document.getElementById('mobile-menu-btn');
         const mobileMenu = document.getElementById('mobile-menu');
         const yearSpan = document.getElementById('yearSpan');
+        const toggleWaFormBtn = document.getElementById('toggleWaFormBtn');
+        const waFormContainer = document.getElementById('waFormContainer');
+
         if (yearSpan) {
             yearSpan.textContent = new Date().getFullYear();
         }
@@ -1376,13 +1332,26 @@
             });
         });
 
-        // WhatsApp form
+        // Toggle WhatsApp form visibility
+        if (toggleWaFormBtn && waFormContainer) {
+            toggleWaFormBtn.addEventListener('click', function () {
+                const isHidden = waFormContainer.classList.contains('hidden');
+                waFormContainer.classList.toggle('hidden');
+                if (isHidden) {
+                    this.innerHTML = '<span class="mr-1"><i class="fa-brands fa-whatsapp text-sm"></i></span>Hide WhatsApp form';
+                } else {
+                    this.innerHTML = '<span class="mr-1"><i class="fa-brands fa-whatsapp text-sm"></i></span>Need help? Send me a WhatsApp';
+                }
+            });
+        }
+
+        // WhatsApp form (simple version)
         const waNumber = '60123456789'; // TUKAR KE NOMBOR WHATSAPP SEBENAR
         const waForm = document.getElementById('waLeadForm');
         const waError = document.getElementById('waFormError');
         const waGenerateBtn = document.getElementById('generateWaBtn');
         const waClearBtn = document.getElementById('clearWaDataBtn');
-        const STORAGE_KEY = 'careerAlignLead';
+        const STORAGE_KEY = 'careerAlignSimpleLead';
 
         function getFieldValue(id) {
             const el = document.getElementById(id);
@@ -1411,7 +1380,9 @@
             const saved = localStorage.getItem(STORAGE_KEY);
             if (saved) {
                 const data = JSON.parse(saved);
-                Object.keys(data).forEach(key => setFieldValue(key, data[key]));
+                ['waName', 'waWhatsapp', 'waPackage', 'waMessage'].forEach(id => {
+                    if (data[id]) setFieldValue(id, data[id]);
+                });
             }
         } catch (e) {
             console.warn('Unable to load saved data', e);
@@ -1421,31 +1392,21 @@
             waGenerateBtn.addEventListener('click', function () {
                 clearError();
 
-                const leadName = getFieldValue('leadName');
-                const leadEmail = getFieldValue('leadEmail');
-                const leadWhatsapp = getFieldValue('leadWhatsapp');
-                const leadSituation = getFieldValue('leadSituation');
-                const leadTargetRole = getFieldValue('leadTargetRole');
-                const leadPackage = getFieldValue('leadPackage');
-                const leadPaymentRef = getFieldValue('leadPaymentRef');
-                const leadJobInfo = getFieldValue('leadJobInfo');
-                const leadNotes = getFieldValue('leadNotes');
+                const waName = getFieldValue('waName');
+                const waWhatsapp = getFieldValue('waWhatsapp');
+                const waPackage = getFieldValue('waPackage');
+                const waMessage = getFieldValue('waMessage');
 
-                if (!leadWhatsapp || !leadTargetRole || !leadPackage || !leadPaymentRef || !leadJobInfo) {
-                    showError('Please fill in your WhatsApp number, target role, package, payment status/preference and job info before continuing.');
+                if (!waWhatsapp || !waMessage) {
+                    showError('Please fill in your WhatsApp number and your question/situation before continuing.');
                     return;
                 }
 
                 const payload = {
-                    leadName,
-                    leadEmail,
-                    leadWhatsapp,
-                    leadSituation,
-                    leadTargetRole,
-                    leadPackage,
-                    leadPaymentRef,
-                    leadJobInfo,
-                    leadNotes
+                    waName,
+                    waWhatsapp,
+                    waPackage,
+                    waMessage
                 };
 
                 try {
@@ -1454,16 +1415,11 @@
                     console.warn('Unable to save data', e);
                 }
 
-                let message = 'CareerAlign – New JobMatch/CareerAlign request%0A%0A';
-                message += '*Name:* ' + (leadName || '-') + '%0A';
-                message += '*Email:* ' + (leadEmail || '-') + '%0A';
-                message += '*WhatsApp:* ' + leadWhatsapp + '%0A';
-                message += '*Current situation:* ' + (leadSituation || '-') + '%0A%0A';
-                message += '*Target role / industry:* ' + leadTargetRole + '%0A';
-                message += '*Package interested in:* ' + leadPackage + '%0A';
-                message += '*Payment status / preference:* ' + leadPaymentRef + '%0A%0A';
-                message += '*Job posting / responsibilities:*%0A' + leadJobInfo + '%0A%0A';
-                message += '*Additional notes:*%0A' + (leadNotes || '-') + '%0A';
+                let message = 'CareerAlign – WhatsApp enquiry%0A%0A';
+                message += '*Name:* ' + (waName || '-') + '%0A';
+                message += '*WhatsApp:* ' + waWhatsapp + '%0A';
+                message += '*Package:* ' + (waPackage || '-') + '%0A%0A';
+                message += '*Question / situation:*%0A' + waMessage + '%0A';
 
                 const url = 'https://wa.me/' + waNumber + '?text=' + message;
                 window.open(url, '_blank');
@@ -1472,10 +1428,7 @@
 
         if (waClearBtn) {
             waClearBtn.addEventListener('click', function () {
-                [
-                    'leadName', 'leadEmail', 'leadWhatsapp', 'leadSituation',
-                    'leadTargetRole', 'leadPackage', 'leadPaymentRef', 'leadJobInfo', 'leadNotes'
-                ].forEach(id => setFieldValue(id, ''));
+                ['waName', 'waWhatsapp', 'waPackage', 'waMessage'].forEach(id => setFieldValue(id, ''));
                 clearError();
                 try {
                     localStorage.removeItem(STORAGE_KEY);
